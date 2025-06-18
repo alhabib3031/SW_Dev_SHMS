@@ -1,0 +1,21 @@
+﻿<section class="form-card">
+    <h2>دفع الرسوم</h2>
+    <form id="paymentForm">
+        <h3>اختر وسيلة الدفع</h3>
+        <label><input type="radio" name="method" value="libyan-bank" required /> مصارف ليبية</label>
+        <label><input type="radio" name="method" value="paypal-crypto" /> PayPal / عملات مشفرة</label>
+
+        <div id="bankFields" class="pay-method hidden">
+            <input type="text" placeholder="اسم المصرف" />
+            <input type="text" placeholder="رقم الإيصال" />
+        </div>
+
+        <div id="paypalFields" class="pay-method hidden">
+            <input type="email" placeholder="بريد PayPal أو محفظة" />
+            <input type="text" placeholder="TxID (للعملات)" />
+        </div>
+
+        <button type="submit" class="btn-primary">إرسال الدفع</button>
+    </form>
+    <p class="note">بعد الدفع، يرجى انتظار تأكيد المدير.</p>
+</section>

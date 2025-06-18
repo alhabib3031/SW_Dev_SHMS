@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="dashboard">
+    <h2>لوحة التحكم</h2>
+    <div class="cards">
+        <div class="card"><h3 id="totalStudents">0</h3><p>عدد الطلاب الكلي</p></div>
+        <div class="card"><h3 id="newStudents">0</h3><p>طلاب جدد</p></div>
+        <div class="card"><h3 id="suspendedStudents">0</h3><p>مفصولون</p></div>
+        <div class="card"><h3 id="paymentsMonth">0 LYD</h3><p>مدفوعات هذا الشهر</p></div>
+    </div>
+
+    <h3>الطلبات المعلّقة</h3>
+    <table id="pendingTable">
+        <thead><tr><th>#</th><th>الطالب</th><th>الحالة</th><th>إجراء</th></tr></thead>
+        <tbody><!-- تُملأ عبر JS --></tbody>
+    </table>
+</section>

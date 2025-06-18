@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<meta charset="UTF-8" />
+
+<title>@ViewData["Title"] - بيوت الطلاب – الصفحة الرئيسية</title>
+<link rel="stylesheet" href="/css/style.css" asp-append-version="true" />
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">بيوت الطلاب</a>
+            <ul>
+                <li><a href="/about.html">حولنا</a></li>
+                <li><a href="/contact.html">اتصل بنا</a></li>
+                <li><a href="/policies.html">السياسات</a></li>
+                <li><a href="/login.html" class="btn">تسجيل الدخول</a></li>
+            </ul>
+        </nav>
+        <section class="hero">
+            <img src="Images/dorm-4.jpg" alt="صورة النزل" />
+            <div class="hero-text">
+                <h1>مرحباً بكم في بيوت الطلاب</h1>
+                <p>مساحات آمنة، مريحة، وقريبة من جامعتك.</p>
+                <br />
+                <a href="/register.html" class="btn-primary">سجل الأن</a>
+            </div>
+        </section>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2025 جميع الحقوق محفوظة لبيوت الطلاب</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
