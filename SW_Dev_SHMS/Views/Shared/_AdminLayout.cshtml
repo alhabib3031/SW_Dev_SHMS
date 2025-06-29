@@ -1,17 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <meta charset="UTF-8" />
-<title>بيوت الطلاب – الصفحة الرئيسية</title>
+<title>بيوت الطلاب – لوحة التحكم</title>
 <link rel="stylesheet" href="/css/style.css" />
 <body>
     <header>
         <nav class="navbar">
-            <a href="index.html" class="logo">بيوت الطلاب</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="logo">بيوت الطلاب</a>
             <ul>
-                <li><a href="/about.html">حولنا</a></li>
-                <li><a href="/contact.html">اتصل بنا</a></li>
-                <li><a href="/policies.html">السياسات</a></li>
-                <li><a href="/login.html" class="btn">تسجيل الخروج</a></li>
+                <li><a asp-area="" asp-controller="Admin" asp-action="AdminDashboard">لوحة التحكم</a></li>
+                <li><a asp-area="" asp-controller="Admin" asp-action="AssignRoom">تخصيص الغرف</a></li>
+                <li><a asp-area="" asp-controller="Admin" asp-action="ReviewRequests">الطلبات</a></li>
+                <li><a asp-area="" asp-controller="" asp-action="SendNotifications">إدارة الإشعارات</a></li>
+                <li><a href="#">الملف الشخصي</a></li>
+                <li><a asp-area="Identity" asp-page="/Account/Logout" class="btn">تسجيل الخروج</a></li>
             </ul>
         </nav>
     </header>

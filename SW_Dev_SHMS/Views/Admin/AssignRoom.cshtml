@@ -1,2 +1,26 @@
 ﻿@{
+    ViewData["Title"] = "Assign Room";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="dashboard">
+    <h2 style="text-align:center; margin: 2rem 0;">تخصيص الغرف</h2>
+
+    <div class="auth-card">
+        <form method="post" action="/Room/Assign">
+            <label for="studentId">رقم الطالب:</label>
+            <input type="number" id="studentId" name="studentId" required />
+
+            <label for="roomId">رقم الغرفة:</label>
+            <select id="roomId" name="roomId" required>
+                <option value="">اختر غرفة</option>
+                <option value="1">غرفة 1</option>
+                <option value="2">غرفة 2</option>
+                <option value="3">غرفة 3</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary">تأكيد التخصيص</button>
+        </form>
+    </div>
+</div>
+

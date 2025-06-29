@@ -128,3 +128,53 @@ footer {
     text-align: center;
     margin-top: 2rem
 }
+.auth-container {
+    max-width: 450px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: #046ec1;
+}
+
+.form-floating {
+    margin-bottom: 1rem;
+}
+
+.auth-container .btn {
+    background-color: #046ec1;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.auth-container .btn:hover {
+    background-color: #035a9d;
+}
+
+.auth-container a {
+    color: #046ec1;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.auth-container .text-danger {
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+.auth-links {
+    margin-top: 1rem;
+    text-align: center;
+}
+

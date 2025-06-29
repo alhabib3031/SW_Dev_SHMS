@@ -1,4 +1,9 @@
-﻿<section class="form-card">
+﻿@{
+    ViewData["Title"] = "Application Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="form-card">
     <h2>طلب التسجيل بالنزل</h2>
     <form id="applicationForm" enctype="multipart/form-data">
         <input type="text" placeholder="الكلية / التخصص" required />

@@ -1,0 +1,13 @@
+﻿@model List<string>
+
+ViewData["Title"] = "About";
+Layout = "~/Views/Shared/_Layout.cshtml";
+
+<h2>الإشعارات</h2>
+
+<ul>
+    @foreach (var notification in Model)
+    {
+        <li>@notification</li>
+    }
+</ul>

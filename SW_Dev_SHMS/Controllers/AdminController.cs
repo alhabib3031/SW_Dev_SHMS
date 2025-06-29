@@ -8,5 +8,17 @@ namespace SW_Dev_SHMS.Controllers
         {
             return View();
         }
+        public IActionResult AssignRoom()
+        {
+            return View();
+        }
+        public IActionResult ReviewRequests()
+        {
+            return View();
+        }
+        public IActionResult StudentManagement()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "إدارة الطلاب";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dashboard">
+    <h2 style="text-align:center; margin: 2rem 0;">إدارة الطلاب</h2>
+
+    <div class="form-card">
+        <form method="post" action="/Student/Add">
+            <label for="studentName">اسم الطالب:</label>
+            <input type="text" id="studentName" name="studentName" required />
+
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="phone">رقم الهاتف:</label>
+            <input type="text" id="phone" name="phone" required />
+
+            <button type="submit" class="btn btn-primary">إضافة طالب</button>
+        </form>
+    </div>
+
+    <div class="cards">
+        <table>
+            <thead>
+            <tr>
+                <th>الرقم</th>
+                <th>الاسم</th>
+                <th>البريد</th>
+                <th>الهاتف</th>
+                <th>إجراءات</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- كرر هذا الصف حسب عدد الطلاب -->
+            <tr>
+                <td>1</td>
+                <td>محمد عبدالسلام</td>
+                <td>mohammed@example.com</td>
+                <td>0912345678</td>
+                <td>
+                    <a href="#" class="btn">تعديل</a>
+                    <a href="#" class="btn" style="background: #dc3545;">حذف</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

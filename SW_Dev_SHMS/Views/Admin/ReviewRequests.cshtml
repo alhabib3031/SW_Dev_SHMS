@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Review Requests";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<div class="dashboard">
+    <h2 style="text-align: center; margin: 2rem 0;">مراجعة طلبات التسجيل</h2>
+
+    <div class="auth-card">
+        <h3 style="margin-bottom: 1rem;">بيانات الطالب</h3>
+        <table>
+            <tr>
+                <th>الرقم الجامعي</th>
+                <td>20230001</td>
+            </tr>
+            <tr>
+                <th>الاسم</th>
+                <td>خالد عمر الشريف</td>
+            </tr>
+            <tr>
+                <th>البريد الإلكتروني</th>
+                <td>khalid@example.com</td>
+            </tr>
+            <tr>
+                <th>رقم الهاتف</th>
+                <td>0912345678</td>
+            </tr>
+            <tr>
+                <th>العنوان</th>
+                <td>طرابلس - شارع الجمهورية</td>
+            </tr>
+            <tr>
+                <th>الكلية</th>
+                <td>الهندسة</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-card">
+        <h3 style="margin-bottom: 1rem;">تفاصيل الدفع</h3>
+        <table>
+            <tr>
+                <th>رقم المعاملة</th>
+                <td>TXN-45789</td>
+            </tr>
+            <tr>
+                <th>المبلغ</th>
+                <td>150 د.ل</td>
+            </tr>
+            <tr>
+                <th>طريقة الدفع</th>
+                <td>بطاقة مصرفية</td>
+            </tr>
+            <tr>
+                <th>الحالة</th>
+                <td><span style="color: green;">تم الدفع</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-card">
+        <h3 style="margin-bottom: 1rem;">التحقق من البيانات</h3>
+        <ul style="margin-bottom: 1rem;">
+            <li>✔️ الاسم موجود</li>
+            <li>✔️ البريد الإلكتروني موجود</li>
+            <li>✔️ رقم الهاتف موجود</li>
+            <li>✔️ الدفع مكتمل</li>
+            <li>❌ صورة الهوية غير مرفوعة</li>
+        </ul>
+
+        <form method="post" action="/Registration/Review">
+            <input type="hidden" name="StudentId" value="20230001" />
+            <button type="submit" name="action" value="approve" class="btn btn-primary">الموافقة</button>
+            <button type="submit" name="action" value="reject" class="btn" style="background: #dc3545;">رفض الطلب</button>
+        </form>
+    </div>
+</div>
