@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SW_Dev_SHMS.Models;
+using SW_Dev_SHMS.Data;
 
 #nullable disable
 
@@ -155,7 +155,41 @@ namespace SW_Dev_SHMS.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Data.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId")
+                        .IsUnique()
+                        .HasFilter("[RequestId] IS NOT NULL");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -167,6 +201,14 @@ namespace SW_Dev_SHMS.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -174,8 +216,15 @@ namespace SW_Dev_SHMS.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -221,198 +270,171 @@ namespace SW_Dev_SHMS.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Hostel", b =>
                 {
-                    b.Property<int>("ManagerId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ManagerId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("HostelId")
-                        .HasColumnType("int");
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Id");
 
-                    b.HasKey("ManagerId");
+                    b.HasIndex("ManagerId")
+                        .IsUnique()
+                        .HasFilter("[ManagerId] IS NOT NULL");
 
-                    b.HasIndex("HostelId")
-                        .IsUnique();
-
-                    b.ToTable("Manager");
+                    b.ToTable("Hostels");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Notification", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DormManagerManagerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentId");
-
-                    b.HasIndex("DormManagerManagerId");
-
-                    b.HasIndex("RequestId")
-                        .IsUnique();
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("Student");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Hostel", b =>
-                {
-                    b.Property<int>("HostelId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HostelId"));
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HostelId");
-
-                    b.ToTable("Hostel");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Notification", b =>
-                {
-                    b.Property<int>("NotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
+                    b.Property<string>("ManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("NotificationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ManagerId");
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Payment", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Request", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.PrimitiveCollection<string>("PaymentMethods")
+                    b.Property<string>("AcademicYear")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("PaymentId");
-
-                    b.ToTable("Payment");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Request", b =>
-                {
-                    b.Property<int>("RequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("ApplicationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsResolved")
+                    b.Property<bool>("IsPaymentCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PaymentId")
+                    b.Property<int?>("PreferredHostelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("RequestId");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PaymentId")
-                        .IsUnique();
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Request");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PreferredHostelId");
+
+                    b.HasIndex("StudentId")
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
+
+                    b.ToTable("Requests");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Room", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Room", b =>
                 {
-                    b.Property<int>("RoomId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("HostelId")
+                    b.Property<int?>("HostelId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("RoomNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
-                    b.HasKey("RoomId");
+                    b.HasKey("Id");
 
                     b.HasIndex("HostelId");
 
-                    b.ToTable("Room");
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Manager", b =>
+                {
+                    b.HasBaseType("SW_Dev_SHMS.Models.Entities.ApplicationUser");
+
+                    b.HasDiscriminator().HasValue("Manager");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Student", b =>
+                {
+                    b.HasBaseType("SW_Dev_SHMS.Models.Entities.ApplicationUser");
+
+                    b.Property<string>("DormManagerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("DormManagerId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasDiscriminator().HasValue("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -426,7 +448,7 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -435,7 +457,7 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -450,7 +472,7 @@ namespace SW_Dev_SHMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -459,123 +481,126 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Data.Entities.Payment", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.Hostel", "Hostel")
-                        .WithOne("Manager")
-                        .HasForeignKey("SW_Dev_SHMS.Models.Manager", "HostelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Request", "Request")
+                        .WithOne()
+                        .HasForeignKey("SW_Dev_SHMS.Data.Entities.Payment", "RequestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Student", "Student")
+                        .WithMany("Payments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Request");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Hostel", b =>
+                {
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Manager", "DormManager")
+                        .WithOne("Hostel")
+                        .HasForeignKey("SW_Dev_SHMS.Models.Entities.Hostel", "ManagerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("DormManager");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Notification", b =>
+                {
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Manager", "Manager")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Student", "Student")
+                        .WithMany("Notifications")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Manager");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Request", b =>
+                {
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Hostel", "PreferredHostel")
+                        .WithMany()
+                        .HasForeignKey("PreferredHostelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Student", "Student")
+                        .WithOne("Request")
+                        .HasForeignKey("SW_Dev_SHMS.Models.Entities.Request", "StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("PreferredHostel");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Room", b =>
+                {
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Hostel", "Hostel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HostelId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Hostel");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Student", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.Manager", "Manager")
-                        .WithMany("DormStudents")
-                        .HasForeignKey("DormManagerManagerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Manager", "DormManager")
+                        .WithMany("AssingedStudents")
+                        .HasForeignKey("DormManagerId");
 
-                    b.HasOne("SW_Dev_SHMS.Models.Request", "Request")
-                        .WithOne("Student")
-                        .HasForeignKey("SW_Dev_SHMS.Models.Student", "RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SW_Dev_SHMS.Models.Room", "Room")
-                        .WithMany("DormStudents")
+                    b.HasOne("SW_Dev_SHMS.Models.Entities.Room", "Room")
+                        .WithMany("Students")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Manager");
-
-                    b.Navigation("Request");
+                    b.Navigation("DormManager");
 
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Notification", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Hostel", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.Manager", "Manager")
-                        .WithMany("Notification")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SW_Dev_SHMS.Models.Student", "Student")
-                        .WithMany("Notification")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Request", b =>
-                {
-                    b.HasOne("SW_Dev_SHMS.Models.Payment", "Payment")
-                        .WithOne("Request")
-                        .HasForeignKey("SW_Dev_SHMS.Models.Request", "PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Room", b =>
-                {
-                    b.HasOne("SW_Dev_SHMS.Models.Hostel", "Hostel")
-                        .WithMany("Rooms")
-                        .HasForeignKey("HostelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hostel");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
-                {
-                    b.Navigation("DormStudents");
-
-                    b.Navigation("Notification");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
-                {
-                    b.Navigation("Notification");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Hostel", b =>
-                {
-                    b.Navigation("Manager");
-
                     b.Navigation("Rooms");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Payment", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Room", b =>
                 {
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Manager", b =>
+                {
+                    b.Navigation("AssingedStudents");
+
+                    b.Navigation("Hostel");
+
+                    b.Navigation("Notifications");
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Entities.Student", b =>
+                {
+                    b.Navigation("Notifications");
+
+                    b.Navigation("Payments");
+
                     b.Navigation("Request");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Request", b =>
-                {
-                    b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.Room", b =>
-                {
-                    b.Navigation("DormStudents");
                 });
 #pragma warning restore 612, 618
         }

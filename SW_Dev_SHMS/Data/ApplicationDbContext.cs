@@ -1,55 +1,93 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using SW_Dev_SHMS.Data.Entities;
+using SW_Dev_SHMS.Models.Entities;
 
-namespace SW_Dev_SHMS.Models
+namespace SW_Dev_SHMS.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Student>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Manager> DormManager { get; set; }
-        public DbSet<Student> DormStudent { get; set; }
-        public DbSet<Hostel> Hostel { get; set; }
-        public DbSet<Room> Room { get; set; }
-        public DbSet<Notification> Notification { get; set; }
-        public DbSet<Request> Request { get; set; }
-        public DbSet<Payment> Payment { get; set; }
+        public DbSet<Manager> Managers { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Hostel> Hostels { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // 1. إعداد العلاقة بين Notification و Student
-            // بنخلي الـ OnDelete تكون Restrict عشان نمنع الحذف المتسلسل
+            
+            base.OnModelCreating(modelBuilder);
+                        // 1. One-to-One: Student <-> Request
+            modelBuilder.Entity<Request>()
+                .HasOne(r => r.Student)
+                .WithOne(s => s.Request)
+                .HasForeignKey<Request>("StudentId")
+                .OnDelete(DeleteBehavior.Restrict); // Changed to Restrict
+
+            // 2. One-to-One: Request <-> Payment  
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Request)
+                .WithOne()
+                .HasForeignKey<Payment>("RequestId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 3. One-to-One: Hostel <-> Manager
+            modelBuilder.Entity<Hostel>()
+                .HasOne(h => h.DormManager)
+                .WithOne(m => m.Hostel)
+                .HasForeignKey<Hostel>("ManagerId")
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // 4. Many-to-One: Student -> Room
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Room)
+                .WithMany(r => r.Students)
+                .HasForeignKey("RoomId")
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // 5. Many-to-One: Room -> Hostel
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Hostel)
+                .WithMany(h => h.Rooms)
+                .HasForeignKey("HostelId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 6. Many-to-One: Request -> Hostel
+            modelBuilder.Entity<Request>()
+                .HasOne(r => r.PreferredHostel)
+                .WithMany()
+                .HasForeignKey("PreferredHostelId")
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // 7. Many-to-One: Notification -> Student
+            // Changed to Restrict to avoid cascade conflicts
             modelBuilder.Entity<Notification>()
                 .HasOne(n => n.Student)
-                .WithMany(s => s.Notification) // 'Notification' هو اسم المجموعة في Student
-                .HasForeignKey(n => n.StudentId)
-                .OnDelete(DeleteBehavior.Restrict); // <--- التغيير المهم هنا
+                .WithMany(s => s.Notifications)
+                .HasForeignKey("StudentId")
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // 2. إعداد العلاقة بين Notification و Manager
-            // برضه بنخلي الـ OnDelete تكون Restrict
+            // 8. Many-to-One: Notification -> Manager
+            // Changed to Restrict to avoid cascade conflicts
             modelBuilder.Entity<Notification>()
                 .HasOne(n => n.Manager)
-                .WithMany(m => m.Notification) // 'Notification' هو اسم المجموعة في Manager
-                .HasForeignKey(n => n.ManagerId)
-                .OnDelete(DeleteBehavior.Restrict); // <--- التغيير المهم هنا
+                .WithMany(m => m.Notifications)
+                .HasForeignKey("ManagerId")
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // 3. إعداد العلاقة بين Student و Manager
-            // دي غالبًا هي اللي بتسبب المشكلة بشكل غير مباشر.
-            // أنت عندك خاصية Manager في Student بدون مفتاح خارجي صريح.
-            // EF Core هيستنتج المفتاح ده، لكن الأفضل نحدد سلوك الحذف
-            modelBuilder.Entity<Student>()
-                .HasOne(ds => ds.DormManager)
-                .WithMany(dm => dm.DormStudents)
-                // لو عندك خاصية مفتاح أجنبي صريح في Student للمدير (زي ManagerId), استخدمها هنا:
-                // .HasForeignKey(ds => ds.ManagerId)
-                .OnDelete(DeleteBehavior.Restrict); // <--- التغيير المهم هنا أيضاً
-
-            // متنساش تستدعي الـ base.OnModelCreating
-            base.OnModelCreating(modelBuilder);
+            // 9. Many-to-One: Payment -> Student
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Student)
+                .WithMany(s => s.Payments)
+                .HasForeignKey("StudentId")
+                .OnDelete(DeleteBehavior.Restrict); // Changed to Restrict
         }
     }
 }
