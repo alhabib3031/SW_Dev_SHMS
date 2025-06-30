@@ -1,6 +1,4 @@
-using SW_Dev_SHMS.Data.Entities;
-
-namespace SW_Dev_SHMS.Models.Entities;
+namespace SW_Dev_SHMS.Data.Entities;
 
 public class Student:ApplicationUser
 {

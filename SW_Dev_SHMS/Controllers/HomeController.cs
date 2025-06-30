@@ -19,6 +19,7 @@ public class HomeController : Controller
     }
     public IActionResult Login()
     {
+        Console.WriteLine("LOGGING USER IN !!");
         return View();
     }
     public IActionResult Register()

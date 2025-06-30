@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SW_Dev_SHMS.Models.Entities;
+namespace SW_Dev_SHMS.Data.Entities;
     /// <summary>
     /// Enumeration for accommodation application status workflow.
     /// Represents the different stages of an application from creation to completion.

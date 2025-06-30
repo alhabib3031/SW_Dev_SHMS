@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SW_Dev_SHMS.Data.Entities;
-using SW_Dev_SHMS.Models.Entities;
 
 namespace SW_Dev_SHMS.Data
 {

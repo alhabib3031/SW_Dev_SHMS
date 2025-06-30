@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using SW_Dev_SHMS.Models.Entities;
+using SW_Dev_SHMS.Data.Entities;
 
 namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
 {

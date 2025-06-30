@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using SW_Dev_SHMS.Models.Entities;
 
 namespace SW_Dev_SHMS.Data.Entities
 {

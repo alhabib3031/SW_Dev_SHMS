@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using SW_Dev_SHMS.Data;
+using SW_Dev_SHMS.Data.Entities;
+using SW_Dev_SHMS.Data.Seeders;
 using SW_Dev_SHMS.Models;
-using SW_Dev_SHMS.Models.Entities;
+using SW_Dev_SHMS.Services.DataServices;
+using SW_Dev_SHMS.Services.DataServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +17,8 @@ builder.Services.AddRazorPages();
 
 // Database context configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .UseLazyLoadingProxies());
 
 // Identity configuration with ApplicationUser as base class
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -39,6 +43,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 // Email sender service
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
+//SEEDER
+builder.Services.AddScoped<DataSeeder>();
+
+// Services 
+builder.Services.AddScoped<IStudentDataService, StudentsDataService>();
+
 // File upload configuration
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -46,6 +56,29 @@ builder.Services.Configure<FormOptions>(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    
+    try
+    {
+        logger.LogInformation("Starting database seeding...");
+        
+        var seeder = services.GetRequiredService<DataSeeder>();
+        await seeder.SeedAllAsync();
+        
+        logger.LogInformation("Database seeding completed successfully");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while seeding the database: {Message}", ex.Message);
+        // Don't throw - let the app continue even if seeding fails
+    }
+}
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

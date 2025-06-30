@@ -1,7 +1,32 @@
-﻿@* Views/Student/RegisterPayment.cshtml *@
+﻿@model SW_Dev_SHMS.Data.Entities.Student
 @{
     ViewData["Title"] = "دفع رسوم التسجيل";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml"; // استخدام Layout الطالب الجديد
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<!-- TempData messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle me-2"></i>@TempData["Info"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="container py-4 animate-fade-in-up">
@@ -10,7 +35,7 @@
         <h1 class="display-4 fw-bold text-primary">دفع رسوم التسجيل</h1>
         <p class="lead text-muted">اختر طريقة الدفع المناسبة لإتمام عملية تسجيلك في السكن الطلابي.</p>
         <div class="alert alert-info d-inline-block mt-3 px-4 py-2 rounded-pill shadow-sm">
-            <i class="fas fa-info-circle me-2"></i> المبلغ المستحق: <span class="fw-bold fs-5">500 د.ل</span>
+            <i class="fas fa-info-circle me-2"></i> المبلغ المستحق: <span class="fw-bold fs-5">@ViewBag.AmountDue د.ل</span>
         </div>
     </div>
 
@@ -24,15 +49,16 @@
 
                     <div class="accordion" id="paymentMethodsAccordion">
 
+                        <!-- Bank Transfer Payment -->
                         <div class="accordion-item mb-3 rounded-3 shadow-sm">
                             <h2 class="accordion-header" id="headingBankTransfer">
                                 <button class="accordion-button fw-bold fs-5 collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBankTransfer" aria-expanded="false" aria-controls="collapseBankTransfer">
-                                    <i class="fas fa-bank me-3"></i> التحويل المصرفي (الدفع المباشر)
+                                    <i class="fas fa-bank me-3"></i> التحويل المصرفي
                                 </button>
                             </h2>
                             <div id="collapseBankTransfer" class="accordion-collapse collapse" aria-labelledby="headingBankTransfer" data-bs-parent="#paymentMethodsAccordion">
                                 <div class="accordion-body bg-light">
-                                    <p class="mb-3">يرجى تحويل المبلغ المستحق إلى الحساب المصرفي التالي وارفاق إيصال الدفع.</p>
+                                    <p class="mb-3">قم بتحويل المبلغ المستحق إلى الحساب المصرفي التالي.</p>
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <p class="fw-bold mb-1">اسم البنك:</p>
@@ -51,24 +77,27 @@
                                             <p class="text-muted">WAHBLYLX</p>
                                         </div>
                                     </div>
-                                    <form action="/Student/UploadBankReceipt" method="post" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="bankReceipt" class="form-label fw-bold"><i class="fas fa-upload me-2"></i>ارفاق إيصال التحويل المصرفي:</label>
-                                            <input class="form-control" type="file" id="bankReceipt" name="bankReceipt" accept="image/*,.pdf" required>
-                                            <div class="form-text">يرجى ارفاق صورة واضحة لإيصال التحويل (صورة أو PDF).</div>
-                                        </div>
+                                    
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        بعد إتمام التحويل، اضغط على الزر أدناه لإبلاغ الإدارة. سيتم مراجعة طلبك خلال 24-48 ساعة.
+                                    </div>
+
+                                    <form asp-controller="Payment" asp-action="BankTransfer" method="post">
+                                        @Html.AntiForgeryToken()
                                         <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill">
-                                            <i class="fas fa-paper-plane me-2"></i> إرسال إيصال الدفع
+                                            <i class="fas fa-paper-plane me-2"></i> إبلاغ الإدارة بالتحويل المصرفي
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Online Payment (PayPal) -->
                         <div class="accordion-item mb-3 rounded-3 shadow-sm">
                             <h2 class="accordion-header" id="headingOnlinePayment">
                                 <button class="accordion-button fw-bold fs-5 collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOnlinePayment" aria-expanded="false" aria-controls="collapseOnlinePayment">
-                                    <i class="fas fa-globe me-3"></i> الدفع الإلكتروني (بطاقة مصرفية / محفظة رقمية)
+                                    <i class="fas fa-globe me-3"></i> الدفع الإلكتروني (بطاقة مصرفية)
                                 </button>
                             </h2>
                             <div id="collapseOnlinePayment" class="accordion-collapse collapse" aria-labelledby="headingOnlinePayment" data-bs-parent="#paymentMethodsAccordion">
@@ -78,40 +107,36 @@
                                         <i class="fas fa-exclamation-triangle me-2"></i>
                                         <strong>ملاحظة:</strong> هذه بوابة دفع افتراضية لأغراض العرض فقط. لن تتم معالجة أي دفعات حقيقية.
                                     </div>
-                                    <form action="/Student/ProcessOnlinePayment" method="post">
+                                    
+                                    <form asp-controller="Payment" asp-action="Online" method="post">
+                                        @Html.AntiForgeryToken()
                                         <div class="mb-3">
                                             <label for="cardNumber" class="form-label fw-bold">رقم البطاقة:</label>
-                                            <input type="text" class="form-control" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
+                                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="expiryDate" class="form-label fw-bold">تاريخ الانتهاء:</label>
-                                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                                                <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="cvv" class="form-label fw-bold">CVV:</label>
-                                                <input type="text" class="form-control" id="cvv" placeholder="XXX" required>
+                                                <input type="text" class="form-control" id="cvv" name="cvv" placeholder="XXX" required>
                                             </div>
                                         </div>
                                         <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
-                                            <label class="form-check-label" for="agreeTerms">أوافق على <a href="#">الشروط والأحكام</a></label>
+                                            <input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" value="true" required>
+                                            <label class="form-check-label" for="agreeTerms">أوافق على <a href="#" target="_blank">الشروط والأحكام</a></label>
                                         </div>
                                         <button type="submit" class="btn btn-success w-100 fw-bold rounded-pill">
                                             <i class="fas fa-credit-card me-2"></i> الدفع الآن
                                         </button>
                                     </form>
-                                    <hr class="my-4">
-                                    <h6 class="fw-bold mb-3">خدمات الدفع الرقمية الأخرى:</h6>
-                                    <div class="d-flex justify-content-around">
-                                        <img src="https://via.placeholder.com/80x40?text=Logo1" alt="خدمة دفع 1" class="img-fluid border rounded p-1" style="max-width: 80px;">
-                                        <img src="https://via.placeholder.com/80x40?text=Logo2" alt="خدمة دفع 2" class="img-fluid border rounded p-1" style="max-width: 80px;">
-                                        <img src="https://via.placeholder.com/80x40?text=Logo3" alt="خدمة دفع 3" class="img-fluid border rounded p-1" style="max-width: 80px;">
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Cash Payment -->
                         <div class="accordion-item mb-3 rounded-3 shadow-sm">
                             <h2 class="accordion-header" id="headingCashPayment">
                                 <button class="accordion-button fw-bold fs-5 collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCashPayment" aria-expanded="false" aria-controls="collapseCashPayment">
@@ -123,15 +148,18 @@
                                     <p class="mb-3">يمكنك دفع رسوم التسجيل نقدًا بزيارة مكتب إدارة السكن الطلابي.</p>
                                     <div class="alert alert-info" role="alert">
                                         <i class="fas fa-map-marker-alt me-2"></i>
-                                        <strong>العنوان:</strong> [عنوان إدارة السكن الطلابي].
+                                        <strong>العنوان:</strong> طرابلس - مجمع الكليات الجامعية - مبنى الإدارة
                                     </div>
                                     <div class="alert alert-info" role="alert">
                                         <i class="fas fa-clock me-2"></i>
-                                        <strong>ساعات العمل:</strong> الأحد - الخميس، 9:00 صباحاً - 4:00 مساءً.
+                                        <strong>ساعات العمل:</strong> الأحد - الخميس، 9:00 صباحاً - 4:00 مساءً
                                     </div>
-                                    <p class="fw-bold">بعد إتمام الدفع النقدي، يرجى إبلاغ الإدارة لتحديث حالة دفعتك:</p>
-                                    <form action="/Student/ConfirmCashPayment" method="post">
-                                        <button type="submit" class="btn btn-info w-100 fw-bold rounded-pill">
+                                    <p class="fw-bold">بعد إتمام الدفع النقدي، اضغط على الزر أدناه لإبلاغ الإدارة:</p>
+                                    
+                                    <form asp-controller="Payment" asp-action="Cash" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-info w-100 fw-bold rounded-pill" 
+                                                onclick="return confirm('هل أنت متأكد أنك دفعت المبلغ نقدًا وتريد إبلاغ الإدارة؟')">
                                             <i class="fas fa-check-double me-2"></i> إبلاغ الإدارة بالدفع النقدي
                                         </button>
                                     </form>
@@ -139,7 +167,22 @@
                             </div>
                         </div>
 
-                    </div> </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Links -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <a asp-controller="Payment" asp-action="Status" class="btn btn-outline-primary w-100 rounded-pill">
+                        <i class="fas fa-history me-2"></i> عرض حالة المدفوعات
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a asp-controller="Student" asp-action="Profile" class="btn btn-outline-secondary w-100 rounded-pill">
+                        <i class="fas fa-user me-2"></i> العودة للملف الشخصي
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -148,69 +191,58 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // يمكنك إضافة أي سكريبتات JavaScript مخصصة هنا
-        // على سبيل المثال، التحقق من صحة المدخلات قبل الإرسال
         document.addEventListener('DOMContentLoaded', function () {
-            // JavaScript for handling payment methods (e.g., showing specific fields)
-            // For real integration, you would use actual payment gateway SDKs or APIs.
+            // Auto hide alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert-dismissible');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
 
-            // Example: Basic form validation for online payment
-            const onlinePaymentForm = document.querySelector('#collapseOnlinePayment form');
-            if (onlinePaymentForm) {
-                onlinePaymentForm.addEventListener('submit', function(event) {
-                    const agreeTerms = document.getElementById('agreeTerms');
-                    if (!agreeTerms.checked) {
-                        alert('يجب الموافقة على الشروط والأحكام للمتابعة.');
-                        event.preventDefault(); // Stop form submission
-                    }
-                    // In a real scenario, you'd integrate with a payment gateway here
-                    // e.g., Stripe.js, PayPal, local payment gateways
-                    console.log('Processing online payment (simulated)...');
-                    // For demo, prevent actual submission. Remove this in production.
-                    event.preventDefault();
-                    alert('تمت محاكاة عملية الدفع بنجاح! (هذا مثال توضيحي فقط).');
-                    // Redirect or show success message
-                    // window.location.href = '/Student/PaymentSuccess';
+            // Format card number input
+            const cardNumberInput = document.getElementById('cardNumber');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+                    if (value.length > 19) value = value.substring(0, 19);
+                    e.target.value = value;
                 });
             }
 
-            const bankReceiptForm = document.querySelector('#collapseBankTransfer form');
-            if (bankReceiptForm) {
-                bankReceiptForm.addEventListener('submit', function(event) {
-                    const bankReceiptFile = document.getElementById('bankReceipt');
-                    if (bankReceiptFile.files.length === 0) {
-                        alert('الرجاء إرفاق إيصال التحويل المصرفي.');
-                        event.preventDefault();
+            // Format expiry date input
+            const expiryInput = document.getElementById('expiryDate');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
                     }
-                    console.log('Uploading bank receipt (simulated)...');
-                    // For demo, prevent actual submission. Remove this in production.
-                    event.preventDefault();
-                    alert('تم إرسال إيصال التحويل للمراجعة! (هذا مثال توضيحي فقط).');
-                    // Redirect or show success message
-                    // window.location.href = '/Student/ReceiptSubmitted';
+                    e.target.value = value;
                 });
             }
 
-            const cashPaymentForm = document.querySelector('#collapseCashPayment form');
-            if (cashPaymentForm) {
-                 cashPaymentForm.addEventListener('submit', function(event) {
-                    if (!confirm('هل أنت متأكد أنك دفعت المبلغ نقدًا وتريد إبلاغ الإدارة؟ سيتم مراجعة طلبك يدويًا.')) {
-                        event.preventDefault();
-                    }
-                    console.log('Notifying cash payment (simulated)...');
-                    // For demo, prevent actual submission. Remove this in production.
-                    event.preventDefault();
-                    alert('تم إرسال إبلاغ بالدفع النقدي للإدارة! (هذا مثال توضيحي فقط).');
-                    // Redirect or show success message
-                    // window.location.href = '/Student/CashPaymentNotified';
-                 });
+            // CVV input validation
+            const cvvInput = document.getElementById('cvv');
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+                });
             }
 
-            // تفعيل أول طريقة دفع افتراضيًا عند تحميل الصفحة
-            // var firstAccordionButton = document.querySelector('#paymentMethodsAccordion .accordion-button');
-            // if (firstAccordionButton) {
-            //     firstAccordionButton.click(); // يفتح أول قسم في الأكورديون
-            // }
+            // Add loading states to payment buttons
+            const paymentForms = document.querySelectorAll('form[asp-controller="Payment"]');
+            paymentForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const button = form.querySelector('button[type="submit"]');
+                    if (button) {
+                        button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> جاري المعالجة...';
+                        button.disabled = true;
+                    }
+                });
+            });
         });
     </script>
 }

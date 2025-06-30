@@ -1,7 +1,6 @@
-
 using System.ComponentModel.DataAnnotations;
 
-namespace SW_Dev_SHMS.Models.Entities;
+namespace SW_Dev_SHMS.Data.Entities;
 
 public class Hostel
 {

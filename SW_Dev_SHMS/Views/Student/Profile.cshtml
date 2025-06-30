@@ -1,7 +1,24 @@
-﻿@* Views/Student/Profile.cshtml *@
+﻿@model SW_Dev_SHMS.Data.Entities.Student
 @{
     ViewData["Title"] = "ملفي الشخصي";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml"; // استخدام Layout الطالب
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<!-- Add TempData messages at the top -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="container py-4 animate-fade-in-up">
@@ -20,51 +37,59 @@
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
                         <img src="https://via.placeholder.com/150/28a745/FFFFFF?text=Student" class="rounded-circle img-thumbnail shadow-sm" alt="صورة الطالب" style="width: 150px; height: 150px; object-fit: cover;">
-                        <h4 class="mt-3 mb-0 fw-bold">محمد عبدالسلام</h4>
-                        <p class="text-muted">الرقم الجامعي: 20230001</p>
+                        <h4 class="mt-3 mb-0 fw-bold">@($"{Model.FirstName} {Model.LastName}".Trim())</h4>
+                        @* <p class="text-muted">الرقم الجامعي: @(Model.UniversityId ?? "غير محدد")</p> *@
                     </div>
 
                     <form method="post" action="/Student/UpdateProfile">
+                        @Html.AntiForgeryToken()
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="studentName" name="studentName" value="محمد عبدالسلام" placeholder=" " required />
+                                    <input type="text" class="form-control" id="studentName" name="studentName" 
+                                           value="@($"{Model.FirstName} {Model.LastName}".Trim())" placeholder=" " required />
                                     <label for="studentName">الاسم الكامل:</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="studentEmail" name="studentEmail" value="mohammed@example.com" placeholder=" " required />
+                                    <input type="email" class="form-control" id="studentEmail" name="studentEmail" 
+                                           value="@(Model.Email ?? "")" placeholder=" " required />
                                     <label for="studentEmail">البريد الإلكتروني:</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="studentPhone" name="studentPhone" value="+218 91 2345678" placeholder=" " />
+                                    <input type="text" class="form-control" id="studentPhone" name="studentPhone" 
+                                           value="@(Model.PhoneNumber ?? "")" placeholder=" " />
                                     <label for="studentPhone">رقم الهاتف:</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="universityId" name="universityId" value="20230001" placeholder=" " disabled />
-                                    <label for="universityId">الرقم الجامعي:</label>
-                                </div>
+                                @* <div class="form-floating"> *@
+                                @*     <input type="text" class="form-control" id="universityId" name="universityId"  *@
+                                @*            value="@(Model.UniversityId ?? "غير محدد")" placeholder=" " disabled /> *@
+                                @*     <label for="universityId">الرقم الجامعي:</label> *@
+                                @* </div> *@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="faculty" name="faculty" value="الهندسة" placeholder=" " disabled />
+                                    <input type="text" class="form-control" id="faculty" name="faculty" 
+                                           value="@(Model.Id ?? "غير محدد")" placeholder=" " disabled />
                                     <label for="faculty">الكلية/التخصص:</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" value="A-101" placeholder=" " disabled />
+                                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" 
+                                           value="@(Model.Room?.RoomNumber ?? "غير مخصص")" placeholder=" " disabled />
                                     <label for="roomNumber">رقم الغرفة المخصصة:</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" id="studentAddress" name="studentAddress" placeholder=" " style="height: 100px;">طرابلس - حي الأندلس، شارع 12</textarea>
+                                    <textarea class="form-control" id="studentAddress" name="studentAddress" 
+                                              placeholder=" " style="height: 100px;">@(Model.Id ?? "")</textarea>
                                     <label for="studentAddress">العنوان:</label>
                                 </div>
                             </div>
@@ -93,6 +118,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/Student/ChangePassword" method="post">
+                @Html.AntiForgeryToken()
                 <div class="modal-body p-4">
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder=" " required />
@@ -119,7 +145,21 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // يمكنك إضافة أي سكريبتات JavaScript مخصصة هنا
-        // مثل التحقق من صحة كلمة المرور قبل الإرسال للمودال
+        // Auto hide alerts after 5 seconds
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+
+        // Password confirmation validation
+        $('#confirmNewPassword').on('input', function() {
+            const newPassword = $('#newPassword').val();
+            const confirmPassword = $(this).val();
+            
+            if (newPassword !== confirmPassword && confirmPassword.length > 0) {
+                $(this).addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
     </script>
 }

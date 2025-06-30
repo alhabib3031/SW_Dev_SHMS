@@ -1,17 +1,41 @@
-﻿@* Views/Student/MyRoom.cshtml *@
+﻿@model SW_Dev_SHMS.Data.Entities.Room
 @{
     ViewData["Title"] = "غرفتي";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml"; // استخدام Layout الطالب
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 
-    
+<!-- TempData messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Warning"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="container-fluid py-4 animate-fade-in-up">
     <div class="text-center mb-5">
         <i class="fas fa-bed fa-5x text-primary mb-3"></i>
         <h1 class="display-4 fw-bold text-primary">غرفتي الشخصية</h1>
         <p class="lead text-muted">استعرض تفاصيل غرفتك المخصصة في السكن الطلابي.</p>
         <div class="alert alert-success d-inline-block mt-3 px-4 py-2 rounded-pill shadow-sm">
-            <i class="fas fa-check-circle me-2"></i> لقد تم تخصيص الغرفة <span class="fw-bold fs-5">A-101</span> لك بنجاح!
+            <i class="fas fa-check-circle me-2"></i> لقد تم تخصيص الغرفة <span class="fw-bold fs-5">@Model.RoomNumber</span> لك بنجاح!
         </div>
     </div>
 
@@ -30,7 +54,7 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0 fw-bold">رقم الغرفة:</h5>
-                                    <p class="text-muted fs-4 mb-0">A-101</p>
+                                    <p class="text-muted fs-4 mb-0">@Model.RoomNumber</p>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +65,7 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0 fw-bold">المبنى:</h5>
-                                    <p class="text-muted fs-4 mb-0">المبنى أ (A)</p>
+                                    <p class="text-muted fs-4 mb-0">@(Model.Hostel?.Name ?? "غير محدد")</p>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +76,7 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0 fw-bold">الدور:</h5>
-                                    <p class="text-muted fs-4 mb-0">الدور الأول</p>
+                                    <p class="text-muted fs-4 mb-0">الدور @Model.RoomNumber</p>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +87,38 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0 fw-bold">سعة الغرفة:</h5>
-                                    <p class="text-muted fs-4 mb-0">4 طلاب</p>
+                                    <p class="text-muted fs-4 mb-0">2 طلاب</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-light text-primary me-3">
+                                    <i class="fas fa-user-friends fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 fw-bold">الطلاب الحاليين:</h5>
+                                    <p class="text-muted fs-4 mb-0">@(Model.Students?.Count ?? 0) طلاب</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-light text-primary me-3">
+                                    <i class="fas fa-clipboard-check fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 fw-bold">حالة الغرفة:</h5>
+                                    <p class="text-muted fs-4 mb-0">
+                                        @if (Model.IsAvailable == true)
+                                        {
+                                            <span class="badge bg-success fs-6">متاحة</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning fs-6">مكتملة</span>
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -103,6 +158,26 @@
                         </li>
                     </ul>
 
+                    @if (Model.Students != null && Model.Students.Any())
+                    {
+                        <hr class="my-5">
+                        <h4 class="mb-4 text-primary fw-bold text-center"><i class="fas fa-users me-2"></i> زملاء الغرفة</h4>
+                        <div class="row">
+                            @foreach (var roommate in Model.Students)
+                            {
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-user-circle fa-3x text-primary mb-2"></i>
+                                            <h6 class="card-title mb-1">@($"{roommate.LastName} {roommate.LastName}".Trim())</h6>
+                                            <p class="card-text text-muted small">@($"{roommate.FirstName} {roommate.LastName}" ?? "غير محدد")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
                     <div class="mt-5 text-center">
                         <a href="/Student/MaintenanceRequest" class="btn btn-warning btn-lg fw-bold rounded-pill px-5">
                             <i class="fas fa-tools me-2"></i> طلب صيانة للغرفة
@@ -116,52 +191,15 @@
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // هنا يمكنك إضافة كود JavaScript لجلب بيانات الغرفة ديناميكيًا من Backend
-            // مثال (يتطلب مسار API حقيقي):
-            /*
-            fetch('/api/student/myroom') // استبدل بمسار API الفعلي
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            // لم يتم تخصيص غرفة للطالب بعد
-                            document.querySelector('.alert-success').classList.remove('alert-success');
-                            document.querySelector('.alert-success').classList.add('alert-warning');
-                            document.querySelector('.alert-warning').innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i> لم يتم تخصيص غرفة لك بعد. يرجى الانتظار أو التواصل مع الإدارة.';
-                            document.querySelector('.card-body').innerHTML = '<div class="text-center p-5"><i class="fas fa-door-closed fa-5x text-muted mb-3"></i><p class="lead">لا توجد تفاصيل للغرفة حالياً.</p></div>';
-                            return Promise.reject('No room assigned');
-                        }
-                        throw new Error('Failed to fetch room details');
-                    }
-                    return response.json();
-                })
-                .then(roomData => {
-                    // تحديث عناصر HTML بالبيانات المستلمة
-                    document.querySelector('.alert-success span').textContent = roomData.roomNumber;
-                    document.querySelector('.fa-door-open').nextElementSibling.querySelector('p').textContent = roomData.roomNumber;
-                    document.querySelector('.fa-building').nextElementSibling.querySelector('p').textContent = roomData.buildingName;
-                    document.querySelector('.fa-layer-group').nextElementSibling.querySelector('p').textContent = roomData.floorName; // أو floorNumber
-                    document.querySelector('.fa-users').nextElementSibling.querySelector('p').textContent = roomData.capacity + ' طلاب';
-
-                    // تحديث قائمة المرافق
-                    const facilitiesList = document.querySelector('.list-group');
-                    facilitiesList.innerHTML = ''; // مسح المرافق الافتراضية
-                    roomData.facilities.forEach(facility => {
-                        const iconClass = facility.available ? 'fa-check-circle text-success' : 'fa-times-circle text-danger';
-                        const listItem = `
-                            <li class="list-group-item d-flex align-items-center">
-                                <i class="fas ${iconClass} me-3 fs-5"></i>
-                                <span class="fs-5">${facility.description}</span>
-                            </li>
-                        `;
-                        facilitiesList.innerHTML += listItem;
-                    });
-
-                    // تحديث رابط طلب الصيانة إذا كان هناك بيانات غرفة
-                    // document.querySelector('.btn-warning').href = `/Student/MaintenanceRequest?roomId=${roomData.id}`;
-                })
-                .catch(error => console.error('Error fetching room details:', error));
-            */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto hide alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert-dismissible');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
         });
     </script>
     <style>
@@ -175,10 +213,10 @@
             box-shadow: 0 2px 4px rgba(0,0,0,.08);
         }
         .icon-circle .fas {
-            font-size: 2.2rem; /* تكبير الأيقونات داخل الدوائر */
+            font-size: 2.2rem;
         }
         .list-group-item {
-            font-size: 1.1rem; /* تكبير خط عناصر القائمة */
+            font-size: 1.1rem;
         }
     </style>
 }
