@@ -1,12 +1,278 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "الصفحة الرئيسية";
 }
 
-<section class="gallery">
-    <h2 dir="rtl">صور من النزل</h2>
-    <div class="grid">
-        <img src="/images/dorm-1.jpg" alt="" />
-        <img src="/images/dorm-2.jpg" alt="" />
-        <img src="/images/dorm-3.jpg" alt="" />
+<section class="hero-section bg-primary text-white d-flex align-items-center justify-content-center text-center position-relative overflow-hidden" style="min-height: 100vh;">
+    @* <div class="hero-background"></div> *@
+
+    <div class="container position-relative z-index-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <!-- المحتوى النصي -->
+                <div class="hero-content animate-fade-in-up">
+                    <h1 class="display-3 fw-bold mb-4">
+                        مرحباً بك في
+                        <span class="text-warning">السكن الطلابي</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        نوفر لك بيئة سكنية مريحة وآمنة تساعدك على التركيز في دراستك وتحقيق أهدافك الأكاديمية
+                    </p>
+                    <div class="hero-buttons d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3">
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-warning btn-lg rounded-pill px-5 fw-bold">
+                            <i class="fas fa-user-plus me-2"></i>سجل الآن
+                        </a>
+                        <a asp-area="" asp-controller="Home" asp-action="About" class="btn btn-outline-light btn-lg rounded-pill px-5 fw-bold">
+                            اعرف المزيد
+                        </a>
+                    </div>
+                </div>
+
+                <!-- البطاقة المتحركة -->
+                <div class="floating-card mt-5 animate-fade-in-up">
+                    <!-- الأنميشن مخصص هنا للأيقونة -->
+                    <div class="animated-icon mb-3">
+                        <i class="fas fa-building fa-8x text-warning"></i>
+                    </div>
+                    <h3 class="fw-bold">نظام إدارة متطور</h3>
+                    <p>تقنية حديثة لخدمة أفضل</p>
+                </div>
+
+            </div>
+        </div>
     </div>
 </section>
+
+
+
+<section id="features" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-primary mb-3">لماذا تختار سكننا؟</h2>
+            <p class="lead text-muted">نقدم خدمات متميزة لضمان راحتك ونجاحك الأكاديمي</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-shield-alt fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">الأمان والحماية</h4>
+                        <p class="text-muted">نظام أمني متطور مع مراقبة 24/7 لضمان سلامتك</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-wifi fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">إنترنت عالي السرعة</h4>
+                        <p class="text-muted">اتصال إنترنت مجاني وسريع في جميع أنحاء السكن</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-warning text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-utensils fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">خدمات الطعام</h4>
+                        <p class="text-muted">كافتيريا متنوعة ومطبخ مشترك مجهز بالكامل</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-dumbbell fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">صالة رياضية</h4>
+                        <p class="text-muted">صالة رياضية مجهزة بأحدث الأجهزة للحفاظ على لياقتك</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-danger text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-book fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">مكتبة ومناطق دراسة</h4>
+                        <p class="text-muted">مساحات هادئة مخصصة للدراسة والبحث</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-secondary text-white rounded-circle mx-auto mb-3">
+                            <i class="fas fa-car fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">مواقف السيارات</h4>
+                        <p class="text-muted">مواقف آمنة ومجانية للسكان</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-primary mb-3">أنواع الغرف</h2>
+            <p class="lead text-muted">اختر النوع الذي يناسب احتياجاتك وميزانيتك</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="room-card card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient text-white text-center py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-bed fa-3x mb-2"></i>
+                        <h4 class="fw-bold">غرفة فردية</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="price-tag text-center mb-3">
+                            <span class="h2 fw-bold text-primary">150 دينار</span>
+                            <small class="text-muted d-block">شهرياً</small>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>مكتب للدراسة</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>خزانة ملابس</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>حمام خاص</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>تكييف مركزي</li>
+                        </ul>
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-primary rounded-pill">احجز الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="room-card card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient text-white text-center py-4" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-users fa-3x mb-2"></i>
+                        <h4 class="fw-bold">غرفة مزدوجة</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="price-tag text-center mb-3">
+                            <span class="h2 fw-bold text-primary">350 دينار</span>
+                            <small class="text-muted d-block">شهرياً</small>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>سريران مفردان</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>مكتبان للدراسة</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>خزانتان</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>حمام مشترك</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>تكييف مركزي</li>
+                        </ul>
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-primary rounded-pill">احجز الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="room-card card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient text-white text-center py-4" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-home fa-3x mb-2"></i>
+                        <h4 class="fw-bold">جناح عائلي</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="price-tag text-center mb-3">
+                            <span class="h2 fw-bold text-primary">400 دينار</span>
+                            <small class="text-muted d-block">شهرياً</small>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>غرفتا نوم</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>صالة معيشة</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>مطبخ صغير</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>حمامان</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>بلكونة</li>
+                        </ul>
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-primary rounded-pill">احجز الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="room-card card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="ribbon bg-danger text-white">الأكثر حجزًا</div> @* Placed ribbon here for specific card *@
+                    <div class="card-header bg-gradient text-white text-center py-4" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-star fa-3x mb-2"></i>
+                        <h4 class="fw-bold">جناح VIP</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="price-tag text-center mb-3">
+                            <span class="h2 fw-bold text-primary">500 دينار</span>
+                            <small class="text-muted d-block">شهرياً</small>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>جناح فاخر</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>مطبخ كامل</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>صالة واسعة</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>حمام جاكوزي</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>خدمة VIP</li>
+                        </ul>
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-primary rounded-pill">احجز الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <i class="fas fa-users fa-3x mb-3 text-warning"></i>
+                    <h2 class="display-4 fw-bold counter" data-target="1500">0</h2>
+                    <p class="lead">طالب مقيم</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <i class="fas fa-building fa-3x mb-3 text-warning"></i>
+                    <h2 class="display-4 fw-bold counter" data-target="12">0</h2>
+                    <p class="lead">مبنى سكني</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <i class="fas fa-door-open fa-3x mb-3 text-warning"></i>
+                    <h2 class="display-4 fw-bold counter" data-target="800">0</h2>
+                    <p class="lead">غرفة متاحة</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6"> @* Removed ribbon from here and placed it in the "Most Booked" room card *@
+                <div class="stat-item">
+                    <i class="fas fa-star fa-3x mb-3 text-warning"></i>
+                    <h2 class="display-4 fw-bold">4.8</h2>
+                    <p class="lead">تقييم الطلاب</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

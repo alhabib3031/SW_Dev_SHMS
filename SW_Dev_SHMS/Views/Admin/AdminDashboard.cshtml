@@ -1,20 +1,275 @@
 ﻿@{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "نظرة عامة";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<section class="dashboard">
-    <h2>لوحة التحكم</h2>
-    <div class="cards">
-        <div class="card"><h3 id="totalStudents">0</h3><p>عدد الطلاب الكلي</p></div>
-        <div class="card"><h3 id="newStudents">0</h3><p>طلاب جدد</p></div>
-        <div class="card"><h3 id="suspendedStudents">0</h3><p>مفصولون</p></div>
-        <div class="card"><h3 id="paymentsMonth">0 LYD</h3><p>مدفوعات هذا الشهر</p></div>
+<div class="container-fluid py-4">
+    <h2 class="mb-4 fw-bold text-primary animate-fade-in-up">لوحة التحكم الإدارية</h2>
+    <p class="lead text-muted mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+        مرحباً بك في نظرة عامة على بيانات السكن الطلابي.
+    </p>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+        <div class="col animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card h-100 shadow-sm border-0 usage-card"> @* استخدام usage-card *@
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h3 class="display-5 fw-bold mb-1 counter" data-target="1500">0</h3>
+                    <p class="text-muted mb-0">عدد الطلاب الكلي</p>
+                </div>
+            </div>
+        </div>
+        <div class="col animate-fade-in-up" style="animation-delay: 0.3s;">
+            <div class="card h-100 shadow-sm border-0 usage-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+                    <h3 class="display-5 fw-bold mb-1 counter" data-target="120">0</h3>
+                    <p class="text-muted mb-0">طلاب جدد هذا الشهر</p>
+                </div>
+            </div>
+        </div>
+        <div class="col animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div class="card h-100 shadow-sm border-0 usage-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-user-slash fa-3x text-danger mb-3"></i>
+                    <h3 class="display-5 fw-bold mb-1 counter" data-target="15">0</h3>
+                    <p class="text-muted mb-0">طلاب مفصولون / محولون</p>
+                </div>
+            </div>
+        </div>
+        <div class="col animate-fade-in-up" style="animation-delay: 0.5s;">
+            <div class="card h-100 shadow-sm border-0 usage-card">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-wallet fa-3x text-warning mb-3"></i>
+                    <h3 class="display-5 fw-bold mb-1"><span class="counter" data-target="25000">0</span> LYD</h3>
+                    <p class="text-muted mb-0">مدفوعات هذا الشهر</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h3>الطلبات المعلّقة</h3>
-    <table id="pendingTable">
-        <thead><tr><th>#</th><th>الطالب</th><th>الحالة</th><th>إجراء</th></tr></thead>
-        <tbody><!-- تُملأ عبر JS --></tbody>
-    </table>
-</section>
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6 animate-fade-in-left" style="animation-delay: 0.6s;">
+            <div class="card shadow-lg rounded-4 h-100">
+                <div class="card-header bg-primary text-white py-3 rounded-top-4">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar me-2"></i>توزيع الطلاب حسب الكلية</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="facultyChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 animate-fade-in-right" style="animation-delay: 0.7s;">
+            <div class="card shadow-lg rounded-4 h-100">
+                <div class="card-header bg-primary text-white py-3 rounded-top-4">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie me-2"></i>حالة الغرف</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="roomStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg rounded-4 animate-fade-in-up" style="animation-delay: 0.8s;">
+        <div class="card-header bg-primary text-white py-3 rounded-top-4 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold"><i class="fas fa-hourglass-half me-2"></i>الطلبات المعلقة</h5>
+            <a href="#" class="btn btn-warning btn-sm fw-bold">عرض الكل <i class="fas fa-arrow-left ms-2"></i></a>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table id="pendingRequestsTable" class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">اسم الطالب</th>
+                            <th scope="col">الكلية</th>
+                            <th scope="col">تاريخ الطلب</th>
+                            <th scope="col">الحالة</th>
+                            <th scope="col">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>أحمد محمد</td>
+                            <td>الهندسة</td>
+                            <td>2025-06-25</td>
+                            <td><span class="badge bg-warning text-dark">قيد الانتظار</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i> عرض</a>
+                                <a href="#" class="btn btn-sm btn-success me-1"><i class="fas fa-check"></i> قبول</a>
+                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> رفض</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>فاطمة علي</td>
+                            <td>الآداب</td>
+                            <td>2025-06-26</td>
+                            <td><span class="badge bg-warning text-dark">قيد الانتظار</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i> عرض</a>
+                                <a href="#" class="btn btn-sm btn-success me-1"><i class="fas fa-check"></i> قبول</a>
+                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> رفض</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>سارة محمود</td>
+                            <td>الطب</td>
+                            <td>2025-06-27</td>
+                            <td><span class="badge bg-warning text-dark">قيد الانتظار</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i> عرض</a>
+                                <a href="#" class="btn btn-sm btn-success me-1"><i class="fas fa-check"></i> قبول</a>
+                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> رفض</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // تأثير العد التنازلي للأرقام في بطاقات الإحصائيات
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+
+            const animateCounter = (counter) => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const increment = target / speed;
+
+                const update = () => {
+                    if (count < target) {
+                        count += increment;
+                        counter.innerText = Math.ceil(count);
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                update();
+            };
+
+            // تشغيل العدادات عند ظهورها في مجال الرؤية
+            const observerOptions = {
+                threshold: 0.5 // 50% من العنصر مرئي
+            };
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+
+
+            // رسم بياني لتوزيع الطلاب حسب الكلية
+            const facultyCtx = document.getElementById('facultyChart').getContext('2d');
+            new Chart(facultyCtx, {
+                type: 'bar', // يمكنك تغيير النوع إلى 'bar'
+                data: {
+                    labels: ['الهندسة', 'الطب', 'الآداب', 'العلوم', 'القانون'],
+                    datasets: [{
+                        label: 'عدد الطلاب',
+                        data: [300, 200, 400, 250, 150], // بيانات افتراضية
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // رسم بياني لحالة الغرف
+            const roomStatusCtx = document.getElementById('roomStatusChart').getContext('2d');
+            new Chart(roomStatusCtx, {
+                type: 'pie', // يمكنك تغيير النوع إلى 'doughnut'
+                data: {
+                    labels: ['مشغولة', 'متاحة', 'تحت الصيانة'],
+                    datasets: [{
+                        label: 'عدد الغرف',
+                        data: [600, 150, 50], // بيانات افتراضية
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)', // أزرق للمشغولة
+                            'rgba(75, 192, 192, 0.7)', // أخضر للمتاحة
+                            'rgba(255, 159, 64, 0.7)'  // برتقالي للصيانة
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+
+            // يمكن إضافة هنا كود AJAX لجلب البيانات الديناميكية للجدول
+            // مثال:
+            // $.ajax({
+            //     url: '/Admin/GetPendingRequests', // استبدل بمسار API الفعلي
+            //     method: 'GET',
+            //     success: function(data) {
+            //         const tableBody = $('#pendingRequestsTable tbody');
+            //         tableBody.empty(); // مسح أي صفوف موجودة
+            //         data.forEach(request => {
+            //             const row = `<tr>
+            //                 <td>${request.id}</td>
+            //                 <td>${request.studentName}</td>
+            //                 <td>${request.faculty}</td>
+            //                 <td>${request.requestDate}</td>
+            //                 <td><span class="badge bg-warning text-dark">${request.status}</span></td>
+            //                 <td>
+            //                     <a href="/Admin/ViewRequest/${request.id}" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i> عرض</a>
+            //                     <button class="btn btn-sm btn-success me-1 approve-btn" data-id="${request.id}"><i class="fas fa-check"></i> قبول</button>
+            //                     <button class="btn btn-sm btn-danger reject-btn" data-id="${request.id}"><i class="fas fa-times"></i> رفض</button>
+            //                 </td>
+            //             </tr>`;
+            //             tableBody.append(row);
+            //         });
+            //     },
+            //     error: function(xhr, status, error) {
+            //         console.error("Error fetching pending requests:", error);
+            //     }
+            // });
+        });
+    </script>
+}

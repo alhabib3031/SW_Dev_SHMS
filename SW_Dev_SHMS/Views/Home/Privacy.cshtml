@@ -1,6 +1,193 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "سياسة الخصوصية";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-4">
+                    <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                    <h1 class="mb-0 fw-bold">سياسة الخصوصية</h1>
+                    <p class="mb-0 opacity-75">نحن نحترم خصوصيتك ونحافظ على بياناتك</p>
+                </div>
+
+                <div class="card-body p-5">
+                    <div class="privacy-section mb-5">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-info-circle me-2"></i>مقدمة
+                        </h3>
+                        <p class="text-muted leading-relaxed">
+                            نحن في نظام إدارة السكن الطلابي نقدر خصوصيتك ونلتزم بحماية معلوماتك الشخصية.
+                            توضح هذه السياسة كيفية جمع واستخدام وحماية المعلومات التي تقدمها لنا.
+                        </p>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-database me-2"></i>المعلومات التي نجمعها
+                        </h3>
+                        <div class="row g-4"> @* استخدام Bootstrap Grid لتحسين عرض الفئات *@
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm border-0 usage-card"> @* استخدام usage-card لتأثير التمرير *@
+                                    <div class="card-body">
+                                        <h5 class="fw-bold text-dark mb-3">المعلومات الشخصية:</h5>
+                                        <ul class="list-unstyled ps-3">
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>الاسم الكامل</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>البريد الإلكتروني</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>رقم الهاتف</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>العنوان</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>تاريخ الميلاد</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm border-0 usage-card"> @* استخدام usage-card لتأثير التمرير *@
+                                    <div class="card-body">
+                                        <h5 class="fw-bold text-dark mb-3">المعلومات الأكاديمية:</h5>
+                                        <ul class="list-unstyled ps-3">
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>رقم الطالب</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>الجامعة</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>التخصص</li>
+                                            <li class="mb-2 right-item"><i class="fas fa-check text-success me-2"></i>المستوى الدراسي</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-cogs me-2"></i>كيف نستخدم معلوماتك
+                        </h3>
+                        <div class="usage-grid row g-3">
+                            <div class="col-md-6 col-lg-3"> @* ضبط الأعمدة لتكون 3 في الصف على الشاشات الكبيرة *@
+                                <div class="usage-card p-3 bg-light rounded-3 text-center h-100">
+                                    <i class="fas fa-user-check text-primary fa-2x mb-2"></i>
+                                    <h6 class="fw-bold">إدارة الحساب</h6>
+                                    <p class="small text-muted mb-0">إنشاء وإدارة حسابك الشخصي</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="usage-card p-3 bg-light rounded-3 text-center h-100">
+                                    <i class="fas fa-home text-success fa-2x mb-2"></i>
+                                    <h6 class="fw-bold">خدمات السكن</h6>
+                                    <p class="small text-muted mb-0">معالجة طلبات الحجز والإقامة</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="usage-card p-3 bg-light rounded-3 text-center h-100">
+                                    <i class="fas fa-bell text-warning fa-2x mb-2"></i>
+                                    <h6 class="fw-bold">الإشعارات</h6>
+                                    <p class="small text-muted mb-0">إرسال تحديثات مهمة</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="usage-card p-3 bg-light rounded-3 text-center h-100">
+                                    <i class="fas fa-headset text-info fa-2x mb-2"></i>
+                                    <h6 class="fw-bold">الدعم الفني</h6>
+                                    <p class="small text-muted mb-0">تقديم المساعدة والدعم</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-lock me-2"></i>حماية معلوماتك
+                        </h3>
+                        <div class="security-measures">
+                            <div class="measure-item d-flex align-items-start mb-3 right-item"> @* استخدام right-item لتأثير التمرير *@
+                                <div class="measure-icon bg-primary text-white rounded-circle me-3">
+                                    <i class="fas fa-lock fa-lg"></i> @* تم تعديل الأيقونة لتكون أكثر وضوحًا مع التشفير *@
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">التشفير</h6>
+                                    <p class="text-muted mb-0">جميع البيانات محمية بتشفير SSL متقدم</p>
+                                </div>
+                            </div>
+
+                            <div class="measure-item d-flex align-items-start mb-3 right-item"> @* استخدام right-item لتأثير التمرير *@
+                                <div class="measure-icon bg-success text-white rounded-circle me-3">
+                                    <i class="fas fa-server fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">خوادم آمنة</h6>
+                                    <p class="text-muted mb-0">خوادم محمية بأحدث تقنيات الأمان</p>
+                                </div>
+                            </div>
+
+                            <div class="measure-item d-flex align-items-start mb-3 right-item"> @* استخدام right-item لتأثير التمرير *@
+                                <div class="measure-icon bg-warning text-white rounded-circle me-3">
+                                    <i class="fas fa-user-shield fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">الوصول المحدود</h6>
+                                    <p class="text-muted mb-0">الوصول للبيانات مقتصر على الموظفين المخولين فقط</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-user-times me-2"></i>حقوقك
+                        </h3>
+                        <div class="rights-list row g-3"> @* استخدام Bootstrap Grid لتحسين عرض الحقوق *@
+                            <div class="col-md-4">
+                                <div class="right-item p-3 border-start border-primary border-4 bg-light h-100">
+                                    <h6 class="fw-bold text-primary">الوصول إلى البيانات</h6>
+                                    <p class="mb-0 text-muted">يحق لك طلب نسخة من بياناتك الشخصية</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="right-item p-3 border-start border-success border-4 bg-light h-100">
+                                    <h6 class="fw-bold text-success">تصحيح البيانات</h6>
+                                    <p class="mb-0 text-muted">يمكنك طلب تصحيح أي معلومات غير صحيحة</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="right-item p-3 border-start border-danger border-4 bg-light h-100">
+                                    <h6 class="fw-bold text-danger">حذف البيانات</h6>
+                                    <p class="mb-0 text-muted">يحق لك طلب حذف بياناتك في ظروف معينة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section">
+                        <h3 class="text-primary fw-bold mb-3">
+                            <i class="fas fa-phone me-2"></i>تواصل معنا
+                        </h3>
+                        <div class="contact-info bg-light p-4 rounded-3">
+                            <p class="mb-3">إذا كان لديك أي أسئلة حول سياسة الخصوصية، تواصل معنا:</p>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-envelope text-primary me-2 fa-lg"></i> @* تكبير الأيقونة قليلاً *@
+                                        <span>privacy@housing.com</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-phone text-success me-2 fa-lg"></i> @* تكبير الأيقونة قليلاً *@
+                                        <span>+966 11 123 4567</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light text-center py-3 rounded-bottom-4">
+                    <small class="text-muted">آخر تحديث: يناير 2025</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

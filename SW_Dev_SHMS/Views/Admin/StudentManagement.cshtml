@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "إدارة الطلاب";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="text-center mb-5 animate-fade-in-up">
+        <i class="fas fa-users-cog fa-5x text-primary mb-3"></i>
+        <h1 class="display-4 fw-bold text-primary">إدارة الطلاب المقيمين</h1>
+        <p class="lead text-muted">استعرض، أضف، عدّل، أو احذف بيانات الطلاب المقيمين في السكن.</p>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4 mb-5 animate-fade-in-up" style="animation-delay: 0.2s;">
+        <div class="card-header bg-primary text-white py-3 rounded-top-4">
+            <h4 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2"></i> إضافة طالب جديد</h4>
+        </div>
+        <div class="card-body p-4 p-md-5">
+            <form method="post" action="/Student/Add">
+                <div class="row g-4"> @* استخدام g-4 لزيادة التباعد بين الحقول *@
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="studentName" name="studentName" placeholder=" " required />
+                            <label for="studentName">الاسم الكامل للطالب</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" placeholder=" " required />
+                            <label for="email">البريد الإلكتروني</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder=" " required />
+                            <label for="phone">رقم الهاتف</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="studentId" name="studentId" placeholder=" ">
+                            <label for="studentId">الرقم الجامعي (اختياري)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg fw-bold rounded-pill">
+                        <i class="fas fa-plus-circle me-2"></i> إضافة الطالب
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4 animate-fade-in-up" style="animation-delay: 0.4s;">
+        <div class="card-header bg-primary text-white py-3 rounded-top-4 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 fw-bold"><i class="fas fa-list-alt me-2"></i> قائمة الطلاب</h4>
+            <div class="input-group w-auto"> @* شريط البحث *@
+                <input type="text" class="form-control rounded-pill pe-5" id="studentSearch" placeholder="ابحث عن طالب..." aria-label="ابحث عن طالب">
+                <span class="input-group-text bg-transparent border-0 position-absolute top-50 end-0 translate-middle-y rounded-end-pill" style="z-index: 1;">
+                    <i class="fas fa-search text-muted"></i>
+                </span>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table id="studentsTable" class="table table-hover table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">الاسم الكامل</th>
+                            <th scope="col">الرقم الجامعي</th>
+                            <th scope="col">البريد الإلكتروني</th>
+                            <th scope="col">رقم الهاتف</th>
+                            <th scope="col">الكلية</th>
+                            <th scope="col">رقم الغرفة</th>
+                            <th scope="col">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>محمد عبدالسلام</td>
+                            <td>20230001</td>
+                            <td>mohammed@example.com</td>
+                            <td>+218 91 2345678</td>
+                            <td>الهندسة</td>
+                            <td>A-101</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1" title="عرض تفاصيل الطالب"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-sm btn-warning me-1" title="تعديل بيانات الطالب"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-sm btn-danger" title="حذف الطالب"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>فاطمة الزهراء علي</td>
+                            <td>20230002</td>
+                            <td>fatima@example.com</td>
+                            <td>+218 92 8765432</td>
+                            <td>الآداب</td>
+                            <td>B-205</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1" title="عرض تفاصيل الطالب"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-sm btn-warning me-1" title="تعديل بيانات الطالب"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-sm btn-danger" title="حذف الطالب"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>3</td>
+                            <td>أحمد محمود</td>
+                            <td>20230003</td>
+                            <td>ahmed@example.com</td>
+                            <td>+218 91 1122334</td>
+                            <td>العلوم</td>
+                            <td>C-302</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info me-1" title="عرض تفاصيل الطالب"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-sm btn-warning me-1" title="تعديل بيانات الطالب"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-sm btn-danger" title="حذف الطالب"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // وظيفة البحث في الجدول
+            const searchInput = document.getElementById('studentSearch');
+            const table = document.getElementById('studentsTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function() {
+                    const filter = this.value.toLowerCase();
+                    for (let i = 0; i < rows.length; i++) {
+                        const cells = rows[i].getElementsByTagName('td');
+                        let rowText = '';
+                        for (let j = 0; j < cells.length; j++) {
+                            rowText += cells[j].textContent || cells[j].innerText;
+                        }
+                        if (rowText.toLowerCase().indexOf(filter) > -1) {
+                            rows[i].style.display = '';
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            // هنا يمكنك إضافة كود AJAX لجلب بيانات الطلاب ديناميكيًا
+            // مثال (يتطلب مسار API حقيقي):
+            /*
+            fetch('/api/students') // استبدل بمسار API الفعلي
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#studentsTable tbody');
+                    tbody.innerHTML = ''; // مسح البيانات الافتراضية
+                    data.forEach((student, index) => {
+                        const row = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${student.fullName}</td>
+                            <td>${student.studentId}</td>
+                            <td>${student.email}</td>
+                            <td>${student.phone}</td>
+                            <td>${student.faculty}</td>
+                            <td>${student.roomNumber || 'غير مخصص'}</td>
+                            <td>
+                                <a href="/Admin/ViewStudent/${student.id}" class="btn btn-sm btn-info me-1" title="عرض تفاصيل الطالب"><i class="fas fa-eye"></i></a>
+                                <a href="/Admin/EditStudent/${student.id}" class="btn btn-sm btn-warning me-1" title="تعديل بيانات الطالب"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-sm btn-danger delete-student-btn" data-id="${student.id}" title="حذف الطالب"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+
+                    // إضافة معالج حدث لأزرار الحذف بعد تحميل البيانات
+                    document.querySelectorAll('.delete-student-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const studentIdToDelete = this.dataset.id;
+                            if (confirm('هل أنت متأكد أنك تريد حذف هذا الطالب؟')) {
+                                // أرسل طلب حذف إلى API
+                                // fetch(`/api/students/${studentIdToDelete}`, { method: 'DELETE' })
+                                //     .then(response => {
+                                //         if (response.ok) {
+                                //             alert('تم حذف الطالب بنجاح!');
+                                //             location.reload(); // إعادة تحميل الصفحة أو تحديث الجدول
+                                //         } else {
+                                //             alert('حدث خطأ أثناء حذف الطالب.');
+                                //         }
+                                //     })
+                                //     .catch(error => console.error('Error deleting student:', error));
+                                alert('وظيفة الحذف غير مفعلة في هذا المثال.');
+                            }
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching students:', error));
+            */
+        });
+    </script>
+}

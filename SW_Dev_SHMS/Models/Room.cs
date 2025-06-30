@@ -1,10 +1,16 @@
-﻿namespace SW_Dev_SHMS.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SW_Dev_SHMS.Models
 {
     public class Room
     {
-        public int Id { get; set; }
-        public string Type { get; set; }
+        public int RoomId { get; set; }
+        public string? Type { get; set; }
         public bool IsAvailable { get; set; }
-        public Hostel Hostel { get; set; }
+
+        [ForeignKey("Hostel")]
+        public int HostelId { get; set; }
+        public Hostel? Hostel { get; set; }
+        public ICollection<Student>? DormStudents { get; set; }
     }
 }

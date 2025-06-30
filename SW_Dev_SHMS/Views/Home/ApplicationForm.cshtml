@@ -1,11 +1,134 @@
-﻿<section class="form-card">
-    <h2>طلب التسجيل بالنزل</h2>
-    <form id="applicationForm" enctype="multipart/form-data">
-        <input type="text" placeholder="الكلية / التخصص" required />
-        <input type="number" placeholder="السنة الدراسية" required />
-        <input type="tel" placeholder="رقم الهاتف" required />
-        <label>تحميل المستندات (PDF واحد):</label>
-        <input type="file" accept="application/pdf" required />
-        <button type="submit" class="btn-primary">إرسال الطلب</button>
-    </form>
-</section>
+﻿@{
+    ViewData["Title"] = "تقديم طلب سكن طلابي";
+}
+
+<div class="container my-5">
+    <div class="text-center mb-5 animate-fade-in-up"> @* إضافة تأثير Fade In Up للعنوان *@
+        <i class="fas fa-bed fa-5x text-primary mb-3"></i> @* تكبير الأيقونة قليلاً وتأكيد اللون الأساسي *@
+        <h1 class="display-4 fw-bold text-primary">نموذج التسجيل في السكن الطلابي</h1>
+        <p class="lead text-muted">يرجى تعبئة جميع الحقول بدقة وإرفاق المستندات المطلوبة لإتمام طلبك.</p> @* تعديل نص الوصف *@
+    </div>
+
+    <div class="bg-white p-5 rounded shadow-lg animate-fade-in-up" style="animation-delay: 0.2s;"> @* زيادة الـ padding و shadow-lg وإضافة تأثير Fade In Up *@
+        <form method="post" enctype="multipart/form-data">
+
+            <div class="privacy-section mb-5"> @* استخدام privacy-section لفاصل بصري *@
+                <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-user-alt me-2"></i>المعلومات الشخصية</h4> @* أيقونة للعناوين *@
+                <div class="card p-4 rounded-3 shadow-sm usage-card"> @* استخدام card و usage-card لجعل القسم بطاقة تفاعلية *@
+                    <div class="row g-4"> @* زيادة الـ gap بين الأعمدة *@
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="studentName" name="studentName" placeholder=" " required>
+                                <label for="studentName">الاسم الكامل</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="studentId" name="studentId" placeholder=" " required>
+                                <label for="studentId">رقم القيد</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="nationalId" name="nationalId" placeholder=" " required>
+                                <label for="nationalId">الرقم الوطني</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="dob" name="dob" placeholder=" ">
+                                <label for="dob">تاريخ الميلاد</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section mb-5">
+                <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-graduation-cap me-2"></i>المعلومات الدراسية</h4> @* أيقونة للعناوين *@
+                <div class="card p-4 rounded-3 shadow-sm usage-card">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="faculty" name="faculty" placeholder=" " required>
+                                <label for="faculty">الكلية</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="department" name="department" placeholder=" ">
+                                <label for="department">القسم</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="year" name="year" aria-label="السنة الدراسية">
+                                    <option value="" disabled selected>اختر السنة الدراسية</option> @* إضافة خيار افتراضي *@
+                                    <option value="1">الأولى</option>
+                                    <option value="2">الثانية</option>
+                                    <option value="3">الثالثة</option>
+                                    <option value="4">الرابعة</option>
+                                    <option value="5">الخامسة (أو أعلى)</option> @* خيار إضافي *@
+                                </select>
+                                <label for="year">السنة الدراسية</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" step="0.01" class="form-control" id="gpa" name="gpa" placeholder=" ">
+                                <label for="gpa">المعدل التراكمي (إن وجد)</label> @* تعديل نص الـ label *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section mb-5">
+                <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-home me-2"></i>معلومات السكن المطلوبة</h4> @* أيقونة وعنوان محدّث *@
+                <div class="card p-4 rounded-3 shadow-sm usage-card">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="city" name="city" placeholder=" " required>
+                                <label for="city">المدينة / المنطقة الأصلية</label> @* تعديل نص الـ label *@
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="needs" name="needs" placeholder=" " maxlength="250"> @* إضافة maxlength *@
+                                <label for="needs">ملاحظات أو احتياجات خاصة (مثل: حالة صحية)</label> @* تعديل نص الـ label *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section mb-5">
+                <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-paperclip me-2"></i>إرفاق المستندات المطلوبة</h4> @* أيقونة للعناوين *@
+                <div class="card p-4 rounded-3 shadow-sm usage-card">
+                    <div class="mb-3">
+                        <label for="personalPhoto" class="form-label fw-bold"><i class="fas fa-id-card-alt me-2 text-info"></i>صورة شخصية <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" id="personalPhoto" name="personalPhoto" accept="image/*" required>
+                        <small class="form-text text-muted">صيغ مقبولة: JPG, PNG. الحد الأقصى للحجم: 2MB.</small> @* إضافة تلميح *@
+                    </div>
+                    <div class="mb-3">
+                        <label for="universityCard" class="form-label fw-bold"><i class="fas fa-university me-2 text-info"></i>صورة بطاقة الطالب الجامعية</label>
+                        <input type="file" class="form-control" id="universityCard" name="universityCard" accept="image/*,application/pdf">
+                        <small class="form-text text-muted">صيغ مقبولة: JPG, PNG, PDF. الحد الأقصى للحجم: 5MB.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nationalCard" class="form-label fw-bold"><i class="fas fa-address-card me-2 text-info"></i>صورة البطاقة الشخصية (الرقم الوطني)</label> @* تعديل نص الـ label *@
+                        <input type="file" class="form-control" id="nationalCard" name="nationalCard" accept="image/*,application/pdf">
+                        <small class="form-text text-muted">صيغ مقبولة: JPG, PNG, PDF. الحد الأقصى للحجم: 5MB.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5"> @* توسيط الزر *@
+                <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 rounded-pill animate-fade-in-up" style="animation-delay: 0.6s;"> @* تكبير الزر وجعله دائريًا مع تأثير حركة *@
+                    <i class="fas fa-paper-plane me-2"></i>إرسال الطلب الآن
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,10 +1,15 @@
-﻿namespace SW_Dev_SHMS.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SW_Dev_SHMS.Models
 {
     public class Hostel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Location { get; set; }
-        public List<Room> Rooms { get; set; }
+        [Key]
+        public int HostelId { get; set; }
+        public string? Name { get; set; }
+        public string? Location { get; set; }
+        public Manager? DormManager { get; set; }
+        public ICollection<Room>? Rooms { get; set; }
     }
 }

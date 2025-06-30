@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "تخصيص الغرف";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="text-center mb-5 animate-fade-in-up">
+        <i class="fas fa-bed fa-5x text-primary mb-3"></i>
+        <h1 class="display-4 fw-bold text-primary">تخصيص غرفة للطالب</h1>
+        <p class="lead text-muted">قم بتخصيص غرفة مناسبة للطالب من الغرف المتاحة في السكن.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card shadow-lg border-0 rounded-4 p-4 p-md-5"> @* Increased padding for better spacing *@
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top-3 mb-4"> @* Styled card header *@
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-person-booth me-2"></i> نموذج تخصيص الغرفة</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Room/Assign">
+                        <div class="form-floating mb-4"> @* Added more margin-bottom *@
+                            <input type="number" class="form-control" id="studentId" name="studentId" placeholder=" " required />
+                            <label for="studentId">رقم الطالب:</label>
+                        </div>
+
+                        <div class="form-floating mb-4"> @* Added more margin-bottom *@
+                            <select class="form-select" id="roomId" name="roomId" aria-label="اختر غرفة" required>
+                                <option value="" disabled selected>اختر غرفة من القائمة</option> @* Improved placeholder *@
+                                <option value="1">غرفة 1 (متاحة)</option>
+                                <option value="2">غرفة 2 (مشغولة)</option> @* Example of occupied room *@
+                                <option value="3">غرفة 3 (متاحة)</option>
+                                <option value="4">غرفة 4 (متاحة)</option>
+                                <option value="5">غرفة 5 (تحت الصيانة)</option> @* Example of maintenance room *@
+                            </select>
+                            <label for="roomId">رقم الغرفة:</label>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4"> @* Full-width button with gap *@
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill">
+                                <i class="fas fa-check-circle me-2"></i> تأكيد التخصيص
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary btn-lg rounded-pill mt-2">
+                                <i class="fas fa-eraser me-2"></i> مسح النموذج
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // You might want to dynamically load room options here based on availability
+        // Example (conceptual, requires backend integration):
+        /*
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/rooms/available') // Replace with your actual API endpoint
+                .then(response => response.json())
+                .then(rooms => {
+                    const roomSelect = document.getElementById('roomId');
+                    roomSelect.innerHTML = '<option value="" disabled selected>اختر غرفة من القائمة</option>'; // Reset options
+                    rooms.forEach(room => {
+                        const option = document.createElement('option');
+                        option.value = room.id;
+                        option.textContent = `غرفة ${room.number} (${room.status})`; // e.g., "غرفة 1 (متاحة)"
+                        roomSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading rooms:', error));
+        });
+        */
+    </script>
 }
