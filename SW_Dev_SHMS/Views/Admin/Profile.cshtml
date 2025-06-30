@@ -1,0 +1,105 @@
+﻿@* Views/Admin/Profile.cshtml *@
+@{
+    ViewData["Title"] = "الملف الشخصي للمسؤول";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4 animate-fade-in-up">
+    <div class="text-center mb-5">
+        <i class="fas fa-user-shield fa-5x text-primary mb-3"></i>
+        <h1 class="display-4 fw-bold text-primary">ملفي الشخصي (المسؤول)</h1>
+        <p class="lead text-muted">استعرض وقم بتحديث معلومات ملفك الشخصي كمسؤول عن النظام.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white py-3 rounded-top-4 text-center">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-id-badge me-2"></i> بيانات الملف الشخصي</h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <img src="https://via.placeholder.com/150/007bff/FFFFFF?text=Admin" class="rounded-circle img-thumbnail shadow-sm" alt="صورة المسؤول" style="width: 150px; height: 150px; object-fit: cover;">
+                        <h4 class="mt-3 mb-0 fw-bold">أحمد علي</h4>
+                        <p class="text-muted">مسؤول النظام</p>
+                    </div>
+
+                    <form method="post" action="/Admin/UpdateProfile">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="adminName" name="adminName" value="أحمد علي" placeholder=" " required />
+                                    <label for="adminName">الاسم الكامل:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="adminEmail" name="adminEmail" value="admin@example.com" placeholder=" " required />
+                                    <label for="adminEmail">البريد الإلكتروني:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="adminPhone" name="adminPhone" value="+218 91 1234567" placeholder=" " />
+                                    <label for="adminPhone">رقم الهاتف:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="adminRole" name="adminRole" value="مسؤول النظام" placeholder=" " disabled />
+                                    <label for="adminRole">الدور الوظيفي:</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" id="adminAddress" name="adminAddress" placeholder=" " style="height: 100px;">طرابلس - شارع جمال عبدالناصر</textarea>
+                                    <label for="adminAddress">العنوان:</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill">
+                                <i class="fas fa-save me-2"></i> حفظ التعديلات
+                            </button>
+                            <a href="#" class="btn btn-outline-secondary btn-lg rounded-pill" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                <i class="fas fa-key me-2"></i> تغيير كلمة المرور
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header bg-primary text-white border-0 rounded-top-4">
+                <h5 class="modal-title fw-bold" id="changePasswordModalLabel"><i class="fas fa-key me-2"></i> تغيير كلمة المرور</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/Admin/ChangePassword" method="post">
+                <div class="modal-body p-4">
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder=" " required />
+                        <label for="currentPassword">كلمة المرور الحالية:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder=" " required />
+                        <label for="newPassword">كلمة المرور الجديدة:</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder=" " required />
+                        <label for="confirmNewPassword">تأكيد كلمة المرور الجديدة:</label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">تغيير</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

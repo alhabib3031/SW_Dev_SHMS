@@ -20,5 +20,13 @@ namespace SW_Dev_SHMS.Controllers
         {
             return View();
         }
+        public IActionResult Notifications()
+        {
+            return View();
+        }
+        public IActionResult Profile()
+        {
+            return View();
+        }
     }
 }

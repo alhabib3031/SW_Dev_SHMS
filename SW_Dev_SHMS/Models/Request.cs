@@ -11,7 +11,7 @@ namespace SW_Dev_SHMS.Models
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsResolved { get; set; }
-        public DormStudent? DormStudent { get; set; }
+        public Student? DormStudent { get; set; }
 
         [ForeignKey("Payment")]
         public int PaymentId { get; set; }

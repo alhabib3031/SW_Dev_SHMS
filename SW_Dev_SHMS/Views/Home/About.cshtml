@@ -1,4 +1,162 @@
 ﻿@{
-    ViewData["Title"] = "About";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "حولنا";
+}
+
+<div class="container my-5">
+    <section class="about-hero text-center mb-5 animate-fade-in-up"> @* إضافة تأثير Fade In Up *@
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <i class="fas fa-building fa-5x text-primary mb-4"></i> @* تغيير الأيقونة لأيقونة المبنى الجامعي *@
+                <h1 class="display-3 fw-bold text-primary mb-4">كل شيء عن بيوت الطلاب</h1> @* تعديل النص ليكون أكثر جاذبية *@
+                <p class="lead text-muted">
+                    نحن نوفر بيئة سكنية متميزة للطلاب الجامعيين، حيث نجمع بين **الراحة والأمان والخدمات المتطورة**
+                    لضمان تجربة تعليمية ناجحة ومثمرة. نؤمن بأن السكن الجيد هو أساس التفوق الأكاديمي.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="vision-mission mb-5">
+        <div class="row g-4">
+            <div class="col-lg-6 animate-fade-in-left" style="animation-delay: 0.2s;"> @* إضافة تأثير Fade In Left *@
+                <div class="card h-100 border-0 shadow-lg rounded-4 bg-primary text-white usage-card"> @* إضافة usage-card لتأثير التمرير *@
+                    <div class="card-body p-5 text-center">
+                        <i class="fas fa-eye fa-4x mb-4 text-warning"></i>
+                        <h3 class="fw-bold mb-4">رؤيتنا</h3>
+                        <p class="lead">
+                            أن نكون الخيار الأول للسكن الطلابي في المنطقة، من خلال توفير بيئة سكنية عصرية وآمنة
+                            تساهم في نجاح الطلاب الأكاديمي والشخصي، وتمكنهم من تحقيق أقصى إمكاناتهم.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 animate-fade-in-right" style="animation-delay: 0.4s;"> @* إضافة تأثير Fade In Right *@
+                <div class="card h-100 border-0 shadow-lg rounded-4 bg-success text-white usage-card"> @* إضافة usage-card لتأثير التمرير *@
+                    <div class="card-body p-5 text-center">
+                        <i class="fas fa-bullseye fa-4x mb-4 text-warning"></i>
+                        <h3 class="fw-bold mb-4">مهمتنا</h3>
+                        <p class="lead">
+                            نسعى لتوفير خدمات سكنية متكاملة وعالية الجودة للطلاب، مع التركيز على **الأمان، الراحة، والدعم الأكاديمي والاجتماعي**،
+                            لبناء مجتمع طلابي مزدهر ومتكامل.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-story mb-5 privacy-section"> @* إضافة privacy-section لخط الفاصل السفلي *@
+        <div class="row align-items-center g-5"> @* زيادة الـ gap بين الأعمدة *@
+            <div class="col-lg-6 animate-fade-in-left"> @* إضافة تأثير Fade In Left *@
+                <div class="story-content">
+                    <h2 class="display-5 fw-bold text-primary mb-4">قصتنا الملهمة</h2> @* تعديل العنوان *@
+                    <p class="text-muted mb-4 lead"> @* جعل النص lead لجذب الانتباه *@
+                        بدأت **رحلتنا في عام 2010** برؤية واضحة وطموحة: توفير بيئة سكنية مثالية للطلاب الجامعيين.
+                        منذ ذلك الحين، نمونا بثبات لنصبح واحداً من أكبر وأكثر مقدمي خدمات السكن الطلابي ثقة في المنطقة.
+                    </p>
+                    <p class="text-muted mb-4 lead"> @* جعل النص lead لجذب الانتباه *@
+                        على مدار السنوات، نفتخر بخدمة **أكثر من 15,000 طالب**، وبناء سمعة قوية قائمة على **الجودة، الثقة، والابتكار المستمر** في خدماتنا.
+                        نحن لا نوفر مجرد سكن، بل نبني مجتمعاً.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 animate-fade-in-right"> @* إضافة تأثير Fade In Right *@
+                <img src="/images/hostel-story.jpg" alt="قصتنا" class="img-fluid rounded-4 shadow-lg transform-on-hover"> @* إضافة rounded-4 و shadow-lg وتأثير تحويل *@
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 privacy-section"> @* إضافة privacy-section لخط الفاصل السفلي *@
+        <h2 class="text-center text-primary fw-bold mb-5 animate-fade-in-up">مميزات السكن الرئيسية</h2> @* تعديل العنوان وإضافة تأثير *@
+        <div class="row text-center g-4">
+            <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card feature-card border-0 p-4 shadow-sm h-100 usage-card"> @* إضافة usage-card *@
+                    <div class="measure-icon bg-success text-white rounded-circle mb-3"> @* استخدام measure-icon *@
+                        <i class="fas fa-bed fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">غرف مريحة وعصرية</h5>
+                    <p class="text-muted">غرف مجهزة بالكامل بأسرة فردية مريحة، مكاتب دراسة عملية، ودواليب واسعة.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="card feature-card border-0 p-4 shadow-sm h-100 usage-card"> @* إضافة usage-card *@
+                    <div class="measure-icon bg-danger text-white rounded-circle mb-3"> @* استخدام measure-icon *@
+                        <i class="fas fa-shield-alt fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">أمان وحماية على مدار الساعة</h5>
+                    <p class="text-muted">أنظمة مراقبة متطورة وفريق حراسة مؤهل وموثوق لضمان سلامتك وراحة بالك 24/7.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="card feature-card border-0 p-4 shadow-sm h-100 usage-card"> @* إضافة usage-card *@
+                    <div class="measure-icon bg-primary text-white rounded-circle mb-3"> @* استخدام measure-icon *@
+                        <i class="fas fa-wifi fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">إنترنت فائق السرعة</h5>
+                    <p class="text-muted">تغطية Wi-Fi قوية ومجانية في كل أرجاء السكن لتسهيل دراستك وتواصلك الدائم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="text-center text-primary fw-bold mb-5 animate-fade-in-up">قيمنا الأساسية التي نؤمن بها</h2> @* تعديل العنوان وإضافة تأثير *@
+        <div class="row text-center g-4 justify-content-center"> @* توسيط الصف *@
+            <div class="col-md-3 col-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card border-0 shadow-sm p-3 h-100 usage-card"> @* إضافة usage-card و h-100 *@
+                    <div class="measure-icon bg-danger text-white rounded-circle mx-auto mb-2"> @* استخدام measure-icon *@
+                        <i class="fas fa-heart fa-lg"></i> @* أيقونة أكبر قليلاً *@
+                    </div>
+                    <h6 class="fw-bold">الاحترام المتبادل</h6>
+                    <p class="small text-muted mb-0">نقدر التنوع ونحترم الجميع.</p> @* إضافة وصف قصير *@
+                </div>
+            </div>
+            <div class="col-md-3 col-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="card border-0 shadow-sm p-3 h-100 usage-card"> @* إضافة usage-card و h-100 *@
+                    <div class="measure-icon bg-success text-white rounded-circle mx-auto mb-2"> @* استخدام measure-icon *@
+                        <i class="fas fa-hands-helping fa-lg"></i>
+                    </div>
+                    <h6 class="fw-bold">التعاون الفعال</h6>
+                    <p class="small text-muted mb-0">نعمل يداً بيد لتحقيق أفضل بيئة.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="card border-0 shadow-sm p-3 h-100 usage-card"> @* إضافة usage-card و h-100 *@
+                    <div class="measure-icon bg-warning text-white rounded-circle mx-auto mb-2"> @* استخدام measure-icon *@
+                        <i class="fas fa-lightbulb fa-lg"></i>
+                    </div>
+                    <h6 class="fw-bold">الابتكار المستمر</h6>
+                    <p class="small text-muted mb-0">نسعى لتطوير خدماتنا باستمرار.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 animate-fade-in-up" style="animation-delay: 0.8s;">
+                <div class="card border-0 shadow-sm p-3 h-100 usage-card"> @* إضافة usage-card و h-100 *@
+                    <div class="measure-icon bg-info text-white rounded-circle mx-auto mb-2"> @* تغيير اللون إلى info واستخدام measure-icon *@
+                        <i class="fas fa-star fa-lg"></i>
+                    </div>
+                    <h6 class="fw-bold">التميز والجودة</h6>
+                    <p class="small text-muted mb-0">التفوق في كل ما نقدمه هو هدفنا.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة تأثير للصور عند التمرير (مثال لـ transform-on-hover)
+            const img = document.querySelector('.transform-on-hover');
+            if (img) {
+                img.style.transition = 'transform 0.3s ease-in-out';
+                img.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(1.03)';
+                });
+                img.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            }
+        });
+    </script>
 }

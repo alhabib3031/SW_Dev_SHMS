@@ -74,7 +74,88 @@ namespace SW_Dev_SHMS.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("SW_Dev_SHMS.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -86,17 +167,15 @@ namespace SW_Dev_SHMS.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -142,98 +221,9 @@ namespace SW_Dev_SHMS.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormManager", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
                 {
                     b.Property<int>("ManagerId")
                         .ValueGeneratedOnAdd()
@@ -258,10 +248,10 @@ namespace SW_Dev_SHMS.Migrations
                     b.HasIndex("HostelId")
                         .IsUnique();
 
-                    b.ToTable("DormManager");
+                    b.ToTable("Manager");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormStudent", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
                         .ValueGeneratedOnAdd()
@@ -296,7 +286,7 @@ namespace SW_Dev_SHMS.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("DormStudent");
+                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("SW_Dev_SHMS.Models.Hostel", b =>
@@ -425,19 +415,6 @@ namespace SW_Dev_SHMS.Migrations
                     b.ToTable("Room");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -449,7 +426,7 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -458,7 +435,7 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -473,7 +450,7 @@ namespace SW_Dev_SHMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -482,34 +459,34 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("SW_Dev_SHMS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormManager", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
                 {
                     b.HasOne("SW_Dev_SHMS.Models.Hostel", "Hostel")
-                        .WithOne("DormManager")
-                        .HasForeignKey("SW_Dev_SHMS.Models.DormManager", "HostelId")
+                        .WithOne("Manager")
+                        .HasForeignKey("SW_Dev_SHMS.Models.Manager", "HostelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Hostel");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormStudent", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.DormManager", "DormManager")
+                    b.HasOne("SW_Dev_SHMS.Models.Manager", "Manager")
                         .WithMany("DormStudents")
                         .HasForeignKey("DormManagerManagerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SW_Dev_SHMS.Models.Request", "Request")
-                        .WithOne("DormStudent")
-                        .HasForeignKey("SW_Dev_SHMS.Models.DormStudent", "RequestId")
+                        .WithOne("Student")
+                        .HasForeignKey("SW_Dev_SHMS.Models.Student", "RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -519,7 +496,7 @@ namespace SW_Dev_SHMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DormManager");
+                    b.Navigation("Manager");
 
                     b.Navigation("Request");
 
@@ -528,13 +505,13 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("SW_Dev_SHMS.Models.Notification", b =>
                 {
-                    b.HasOne("SW_Dev_SHMS.Models.DormManager", "Manager")
+                    b.HasOne("SW_Dev_SHMS.Models.Manager", "Manager")
                         .WithMany("Notification")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SW_Dev_SHMS.Models.DormStudent", "Student")
+                    b.HasOne("SW_Dev_SHMS.Models.Student", "Student")
                         .WithMany("Notification")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -567,21 +544,21 @@ namespace SW_Dev_SHMS.Migrations
                     b.Navigation("Hostel");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormManager", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Manager", b =>
                 {
                     b.Navigation("DormStudents");
 
                     b.Navigation("Notification");
                 });
 
-            modelBuilder.Entity("SW_Dev_SHMS.Models.DormStudent", b =>
+            modelBuilder.Entity("SW_Dev_SHMS.Models.Student", b =>
                 {
                     b.Navigation("Notification");
                 });
 
             modelBuilder.Entity("SW_Dev_SHMS.Models.Hostel", b =>
                 {
-                    b.Navigation("DormManager");
+                    b.Navigation("Manager");
 
                     b.Navigation("Rooms");
                 });
@@ -593,7 +570,7 @@ namespace SW_Dev_SHMS.Migrations
 
             modelBuilder.Entity("SW_Dev_SHMS.Models.Request", b =>
                 {
-                    b.Navigation("DormStudent");
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SW_Dev_SHMS.Models.Room", b =>

@@ -1,77 +1,164 @@
 ﻿@{
-    ViewData["Title"] = "Review Requests";
+    ViewData["Title"] = "مراجعة طلبات التسجيل";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="dashboard">
-    <h2 style="text-align: center; margin: 2rem 0;">مراجعة طلبات التسجيل</h2>
-
-    <div class="auth-card">
-        <h3 style="margin-bottom: 1rem;">بيانات الطالب</h3>
-        <table>
-            <tr>
-                <th>الرقم الجامعي</th>
-                <td>20230001</td>
-            </tr>
-            <tr>
-                <th>الاسم</th>
-                <td>خالد عمر الشريف</td>
-            </tr>
-            <tr>
-                <th>البريد الإلكتروني</th>
-                <td>khalid@example.com</td>
-            </tr>
-            <tr>
-                <th>رقم الهاتف</th>
-                <td>0912345678</td>
-            </tr>
-            <tr>
-                <th>العنوان</th>
-                <td>طرابلس - شارع الجمهورية</td>
-            </tr>
-            <tr>
-                <th>الكلية</th>
-                <td>الهندسة</td>
-            </tr>
-        </table>
+<div class="container-fluid py-4">
+    <div class="text-center mb-5 animate-fade-in-up">
+        <i class="fas fa-search-dollar fa-5x text-primary mb-3"></i>
+        <h1 class="display-4 fw-bold text-primary">مراجعة طلبات التسجيل</h1>
+        <p class="lead text-muted">قم بمراجعة بيانات الطالب والمستندات المرفقة لاتخاذ القرار المناسب.</p>
     </div>
 
-    <div class="form-card">
-        <h3 style="margin-bottom: 1rem;">تفاصيل الدفع</h3>
-        <table>
-            <tr>
-                <th>رقم المعاملة</th>
-                <td>TXN-45789</td>
-            </tr>
-            <tr>
-                <th>المبلغ</th>
-                <td>150 د.ل</td>
-            </tr>
-            <tr>
-                <th>طريقة الدفع</th>
-                <td>بطاقة مصرفية</td>
-            </tr>
-            <tr>
-                <th>الحالة</th>
-                <td><span style="color: green;">تم الدفع</span></td>
-            </tr>
-        </table>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+            <div class="card shadow-lg border-0 rounded-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-clipboard-list me-2"></i> تفاصيل الطلب رقم: <span class="badge bg-light text-primary">#REQ2025001</span></h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
 
-    <div class="form-card">
-        <h3 style="margin-bottom: 1rem;">التحقق من البيانات</h3>
-        <ul style="margin-bottom: 1rem;">
-            <li>✔️ الاسم موجود</li>
-            <li>✔️ البريد الإلكتروني موجود</li>
-            <li>✔️ رقم الهاتف موجود</li>
-            <li>✔️ الدفع مكتمل</li>
-            <li>❌ صورة الهوية غير مرفوعة</li>
-        </ul>
+                    <div class="privacy-section mb-5">
+                        <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-user-circle me-2"></i>بيانات الطالب</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">الرقم الجامعي:</th>
+                                        <td><span class="fw-bold">20230001</span></td>
+                                        <th scope="row" class="text-nowrap">الاسم الكامل:</th>
+                                        <td>خالد عمر الشريف</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">البريد الإلكتروني:</th>
+                                        <td>khalid@example.com</td>
+                                        <th scope="row" class="text-nowrap">رقم الهاتف:</th>
+                                        <td>+218 91 2345678</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">تاريخ الميلاد:</th>
+                                        <td>1998-05-15</td>
+                                        <th scope="row" class="text-nowrap">الرقم الوطني:</th>
+                                        <td>123456789012</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">العنوان:</th>
+                                        <td colspan="3">طرابلس - شارع الجمهورية، مبنى 5</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">الكلية / التخصص:</th>
+                                        <td>الهندسة / هندسة الحاسوب</td>
+                                        <th scope="row" class="text-nowrap">السنة الدراسية:</th>
+                                        <td>الثالثة</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-        <form method="post" action="/Registration/Review">
-            <input type="hidden" name="StudentId" value="20230001" />
-            <button type="submit" name="action" value="approve" class="btn btn-primary">الموافقة</button>
-            <button type="submit" name="action" value="reject" class="btn" style="background: #dc3545;">رفض الطلب</button>
-        </form>
+                    <div class="privacy-section mb-5">
+                        <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-money-check-alt me-2"></i>تفاصيل الدفع</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">رقم المعاملة:</th>
+                                        <td><span class="fw-bold">TXN-45789</span></td>
+                                        <th scope="row" class="text-nowrap">المبلغ:</th>
+                                        <td><span class="text-success fw-bold">150 د.ل</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-nowrap">طريقة الدفع:</th>
+                                        <td>بطاقة مصرفية</td>
+                                        <th scope="row" class="text-nowrap">حالة الدفع:</th>
+                                        <td><span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> تم الدفع</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-paperclip me-2"></i>المستندات المرفقة</h4>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-primary border usage-card"> @* استخدام usage-card *@
+                                    <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                        <h6 class="card-title fw-bold mb-3">الصورة الشخصية</h6>
+                                        <img src="https://via.placeholder.com/150/0000FF/FFFFFF?text=Personal+Photo" alt="صورة شخصية" class="img-fluid rounded shadow-sm mb-3" style="max-height: 150px; object-fit: cover;">
+                                        <a href="https://via.placeholder.com/500/0000FF/FFFFFF?text=Personal+Photo+Full" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye me-1"></i> عرض</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-success border usage-card">
+                                    <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                        <h6 class="card-title fw-bold mb-3">بطاقة الطالب الجامعية</h6>
+                                        <img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Uni+Card" alt="بطاقة جامعية" class="img-fluid rounded shadow-sm mb-3" style="max-height: 150px; object-fit: cover;">
+                                        <a href="https://via.placeholder.com/500/FF0000/FFFFFF?text=Uni+Card+Full" target="_blank" class="btn btn-sm btn-outline-success"><i class="fas fa-eye me-1"></i> عرض</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-danger border usage-card">
+                                    <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                        <h6 class="card-title fw-bold mb-3">البطاقة الشخصية (الرقم الوطني)</h6>
+                                        <img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=National+ID" alt="بطاقة شخصية" class="img-fluid rounded shadow-sm mb-3" style="max-height: 150px; object-fit: cover;">
+                                        <a href="https://via.placeholder.com/500/00FF00/FFFFFF?text=National+ID+Full" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fas fa-eye me-1"></i> عرض</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <p class="text-muted"><i class="fas fa-info-circle me-1"></i> انقر على "عرض" لمشاهدة المستندات بحجمها الكامل.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-section mb-5">
+                        <h4 class="mb-4 text-primary fw-bold"><i class="fas fa-clipboard-check me-2"></i>حالة التحقق والإجراءات</h4>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm border-info border">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold mb-3"><i class="fas fa-list-check me-2 text-info"></i>قائمة التحقق من البيانات:</h5>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>الاسم الكامل والجامعي مطابق</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>البريد الإلكتروني صالح</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>رقم الهاتف صحيح</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>الدفع مكتمل بنجاح</li>
+                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>صورة الهوية الوطنية مرفقة وواضحة</li>
+                                            <li class="mb-2"><i class="fas fa-times-circle text-danger me-2"></i>صورة البطاقة الجامعية غير واضحة</li> @* مثال على بند يحتاج مراجعة *@
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm border-secondary border">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold mb-3"><i class="fas fa-comment-dots me-2 text-secondary"></i>إضافة ملاحظات (اختياري):</h5>
+                                        <form method="post" action="/Registration/Review">
+                                            <input type="hidden" name="StudentId" value="20230001" />
+                                            <div class="form-floating mb-3">
+                                                <textarea class="form-control" placeholder="اكتب ملاحظاتك هنا..." id="reviewNotes" name="reviewNotes" style="height: 100px"></textarea>
+                                                <label for="reviewNotes">ملاحظات مراجعة الطلب</label>
+                                            </div>
+
+                                            <div class="d-grid gap-2 mt-4">
+                                                <button type="submit" name="action" value="approve" class="btn btn-success btn-lg fw-bold rounded-pill mb-2">
+                                                    <i class="fas fa-thumbs-up me-2"></i>الموافقة على الطلب
+                                                </button>
+                                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-lg fw-bold rounded-pill">
+                                                    <i class="fas fa-times-circle me-2"></i>رفض الطلب
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

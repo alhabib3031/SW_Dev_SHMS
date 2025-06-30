@@ -30,9 +30,7 @@ namespace SW_Dev_SHMS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -126,8 +124,8 @@ namespace SW_Dev_SHMS.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -171,8 +169,8 @@ namespace SW_Dev_SHMS.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -187,7 +185,7 @@ namespace SW_Dev_SHMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DormManager",
+                name: "Manager",
                 columns: table => new
                 {
                     ManagerId = table.Column<int>(type: "int", nullable: false)
@@ -253,7 +251,7 @@ namespace SW_Dev_SHMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DormStudent",
+                name: "Student",
                 columns: table => new
                 {
                     StudentId = table.Column<int>(type: "int", nullable: false)
@@ -271,7 +269,7 @@ namespace SW_Dev_SHMS.Migrations
                     table.ForeignKey(
                         name: "FK_DormStudent_DormManager_DormManagerManagerId",
                         column: x => x.DormManagerManagerId,
-                        principalTable: "DormManager",
+                        principalTable: "Manager",
                         principalColumn: "ManagerId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -307,13 +305,13 @@ namespace SW_Dev_SHMS.Migrations
                     table.ForeignKey(
                         name: "FK_Notification_DormManager_ManagerId",
                         column: x => x.ManagerId,
-                        principalTable: "DormManager",
+                        principalTable: "Manager",
                         principalColumn: "ManagerId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Notification_DormStudent_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "DormStudent",
+                        principalTable: "Student",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -359,24 +357,24 @@ namespace SW_Dev_SHMS.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_DormManager_HostelId",
-                table: "DormManager",
+                table: "Manager",
                 column: "HostelId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DormStudent_DormManagerManagerId",
-                table: "DormStudent",
+                table: "Student",
                 column: "DormManagerManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DormStudent_RequestId",
-                table: "DormStudent",
+                table: "Student",
                 column: "RequestId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DormStudent_RoomId",
-                table: "DormStudent",
+                table: "Student",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
@@ -429,10 +427,10 @@ namespace SW_Dev_SHMS.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "DormStudent");
+                name: "Student");
 
             migrationBuilder.DropTable(
-                name: "DormManager");
+                name: "Manager");
 
             migrationBuilder.DropTable(
                 name: "Request");

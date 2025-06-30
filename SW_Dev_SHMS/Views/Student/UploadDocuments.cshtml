@@ -1,5 +1,173 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@* Views/Student/UploadDocuments.cshtml *@
 @{
+    ViewData["Title"] = "رفع وثائق التسجيل";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml"; // استخدام Layout الطالب
+}
+
+<div class="container py-4 animate-fade-in-up">
+    <div class="text-center mb-5">
+        <i class="fas fa-file-upload fa-5x text-primary mb-3"></i>
+        <h1 class="display-4 fw-bold text-primary">رفع وثائق التسجيل</h1>
+        <p class="lead text-muted">يرجى رفع المستندات المطلوبة لإكمال طلب تسجيلك في السكن الطلابي.</p>
+        <div class="alert alert-warning d-inline-block mt-3 px-4 py-2 rounded-pill shadow-sm">
+            <i class="fas fa-exclamation-triangle me-2"></i> جميع الوثائق المطلوبة تحمل علامة (*) وهي إلزامية.
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white py-3 rounded-top-4 text-center">
+                    <h4 class="mb-0 fw-bold"><i class="fas fa-folder-open me-2"></i> المستندات المطلوبة</h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form id="uploadDocumentsForm" method="post" action="/Student/SubmitDocuments" enctype="multipart/form-data">
+
+                        <div class="alert alert-info mb-4" role="alert">
+                            <h5 class="alert-heading fw-bold"><i class="fas fa-lightbulb me-2"></i> إرشادات هامة لرفع الوثائق:</h5>
+                            <ul class="mb-0">
+                                <li>تأكد أن المستندات واضحة وكاملة (غير مقطوعة).</li>
+                                <li>صيغ الملفات المقبولة: **PDF**, **JPG**, **PNG**.</li>
+                                <li>الحد الأقصى لحجم الملف الواحد: **5 ميجابايت**.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4 document-upload-section" data-doc-name="الصورة الشخصية">
+                            <label for="personalPhoto" class="form-label fw-bold d-block"><i class="fas fa-camera me-2"></i> الصورة الشخصية (خلفية بيضاء) <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="personalPhoto" name="personalPhoto" accept="image/jpeg,image/png" required>
+                            <div class="form-text mt-1">صورة حديثة مقاس 4x6 بخلفية بيضاء واضحة.</div>
+                            <div class="uploaded-file-preview mt-2" id="personalPhotoPreview" style="display:none;">
+                                <img src="#" alt="معاينة الصورة الشخصية" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-file-btn mt-2" data-target="personalPhoto"><i class="fas fa-times me-1"></i> إزالة</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 document-upload-section" data-doc-name="صورة الهوية">
+                            <label for="nationalIdPhoto" class="form-label fw-bold d-block"><i class="fas fa-id-card me-2"></i> صورة من جواز السفر أو الرقم الوطني <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="nationalIdPhoto" name="nationalIdPhoto" accept="image/jpeg,image/png,application/pdf" required>
+                            <div class="form-text mt-1">صورة واضحة لكامل الصفحة الأولى من جواز السفر أو البطاقة الشخصية (الرقم الوطني).</div>
+                             <div class="uploaded-file-preview mt-2" id="nationalIdPhotoPreview" style="display:none;">
+                                <img src="#" alt="معاينة الهوية" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-file-btn mt-2" data-target="nationalIdPhoto"><i class="fas fa-times me-1"></i> إزالة</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 document-upload-section" data-doc-name="إفادة قيد">
+                            <label for="enrollmentProof" class="form-label fw-bold d-block"><i class="fas fa-graduation-cap me-2"></i> إفادة قيد جامعي حديثة <span class="text-danger">*</span></label>
+                            <input class="form-control" type="file" id="enrollmentProof" name="enrollmentProof" accept="image/jpeg,image/png,application/pdf" required>
+                            <div class="form-text mt-1">مستند رسمي من الجامعة يثبت أنك طالب حالي للسنة الدراسية الحالية.</div>
+                             <div class="uploaded-file-preview mt-2" id="enrollmentProofPreview" style="display:none;">
+                                <img src="#" alt="معاينة إفادة القيد" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-file-btn mt-2" data-target="enrollmentProof"><i class="fas fa-times me-1"></i> إزالة</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 document-upload-section" data-doc-name="إيصال الدفع">
+                            <label for="paymentReceipt" class="form-label fw-bold d-block"><i class="fas fa-receipt me-2"></i> إيصال دفع رسوم التسجيل <span class="text-muted">(إذا لم يتم الدفع إلكترونياً)</span></label>
+                            <input class="form-control" type="file" id="paymentReceipt" name="paymentReceipt" accept="image/jpeg,image/png,application/pdf">
+                            <div class="form-text mt-1">صورة أو PDF لإيصال الدفع النقدي أو التحويل المصرفي.</div>
+                             <div class="uploaded-file-preview mt-2" id="paymentReceiptPreview" style="display:none;">
+                                <img src="#" alt="معاينة إيصال الدفع" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-file-btn mt-2" data-target="paymentReceipt"><i class="fas fa-times me-1"></i> إزالة</button>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill">
+                                <i class="fas fa-cloud-upload-alt me-2"></i> إرسال الوثائق
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill" onclick="window.location.reload();">
+                                <i class="fas fa-redo me-2"></i> مسح جميع الحقول
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('uploadDocumentsForm');
+            const fileInputs = form.querySelectorAll('input[type="file"]');
+
+            // وظيفة لمعاينة الملفات المرفوعة
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const previewContainer = document.getElementById(this.id + 'Preview');
+                    const imgPreview = previewContainer.querySelector('img');
+                    const removeBtn = previewContainer.querySelector('.remove-file-btn');
+
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        const reader = new FileReader();
+
+                        if (file.type.startsWith('image/')) {
+                            reader.onload = (e) => {
+                                imgPreview.src = e.target.result;
+                                imgPreview.style.display = 'block';
+                                previewContainer.style.display = 'block';
+                            };
+                            reader.readAsDataURL(file);
+                        } else if (file.type === 'application/pdf') {
+                            imgPreview.src = 'https://via.placeholder.com/150x150?text=PDF+File'; // صورة رمزية لملف PDF
+                            imgPreview.style.display = 'block';
+                            previewContainer.style.display = 'block';
+                        } else {
+                            // لأي نوع ملف آخر غير مدعوم للمعاينه المباشرة
+                            imgPreview.style.display = 'none';
+                            previewContainer.style.display = 'block'; // اظهر فقط زر الازالة
+                        }
+                        removeBtn.dataset.target = this.id; // تعيين ID للملف الذي سيتم إزالته
+                    } else {
+                        // إذا لم يتم اختيار ملف
+                        previewContainer.style.display = 'none';
+                        imgPreview.src = '#';
+                    }
+                });
+            });
+
+            // وظيفة لإزالة الملف المرفوع (معاينة وحقل الإدخال)
+            document.querySelectorAll('.remove-file-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.target;
+                    const fileInput = document.getElementById(targetId);
+                    const previewContainer = document.getElementById(targetId + 'Preview');
+                    const imgPreview = previewContainer.querySelector('img');
+
+                    fileInput.value = ''; // مسح الملف المحدد في حقل الإدخال
+                    previewContainer.style.display = 'none';
+                    imgPreview.src = '#';
+                });
+            });
+
+
+            // التحقق من صحة النموذج قبل الإرسال
+            form.addEventListener('submit', function (event) {
+                let isValid = true;
+                const requiredInputs = form.querySelectorAll('input[required]');
+
+                requiredInputs.forEach(input => {
+                    if (!input.value) {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('is-invalid');
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault(); // منع الإرسال إذا كان هناك حقول مطلوبة فارغة
+                    alert('الرجاء تعبئة جميع الحقول المطلوبة التي تحمل علامة (*).');
+                } else {
+                    // هنا يتم إرسال النموذج إلى الخادم
+                    // يمكنك إضافة مؤشر تحميل أو رسالة نجاح/خطأ هنا
+                    alert('جاري رفع المستندات... (هذا مثال توضيحي فقط، عملية الرفع ستتم فعليًا بعد إضافة الكود في Backend)');
+                    // event.preventDefault(); // احتفظ بهذا لمنع الإرسال الفعلي في مرحلة التطوير
+                }
+            });
+        });
+    </script>
 }

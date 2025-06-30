@@ -46,3 +46,87 @@ function approve(id) {
     notify(`تم قبول طلب رقم ${id}`, "success");
     // حدث في الباك-إند: تغيير الحالة + إشعار الطالب
 }
+
+// ======index========
+// Counter animation
+document.addEventListener('DOMContentLoaded', function() {
+const counters = document.querySelectorAll('.counter');
+
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const counter = entry.target;
+const target = parseInt(counter.getAttribute('data-target'));
+const increment = target / 200;
+let current = 0;
+
+const timer = setInterval(() => {
+current += increment;
+counter.textContent = Math.floor(current);
+
+if (current >= target) {
+counter.textContent = target;
+clearInterval(timer);
+}
+}, 10);
+
+observer.unobserve(counter);
+}
+});
+});
+
+counters.forEach(counter => {
+observer.observe(counter);
+});
+});
+
+document.querySelectorAll('.counter').forEach(counter => {
+    const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = target / 100;
+
+        if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(updateCount, 20);
+        } else {
+            counter.innerText = target;
+        }
+    };
+
+    updateCount();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Counter animation for statistics
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200; // The lower the speed, the faster the count
+
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+
+            const increment = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+
+        // Trigger count animation when element is in view
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCount();
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
+
+        observer.observe(counter);
+    });
+});

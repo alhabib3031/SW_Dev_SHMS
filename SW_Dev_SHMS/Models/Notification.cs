@@ -14,11 +14,11 @@ namespace SW_Dev_SHMS.Models
 
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
-        public DormManager? Manager { get; set; }
+        public Manager? Manager { get; set; }
 
         [ForeignKey("Student")]
         public int StudentId { get; set; }
-        public DormStudent? Student { get; set; }
+        public Student? Student { get; set; }
 
 
     }

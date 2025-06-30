@@ -1,4 +1,92 @@
 ﻿@{
-    ViewData["Title"] = "Contact Us";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "اتصل بنا";
 }
+
+<div class="container my-5">
+    <div class="text-center mb-5 animate-fade-in-up"> @* إضافة تأثير Fade In Up *@
+        <i class="fas fa-headset fa-5x text-primary mb-3"></i> @* تغيير الأيقونة وتكبير حجمها *@
+        <h1 class="display-4 fw-bold text-primary">تواصل معنا</h1> @* تعديل النص ليصبح "تواصل معنا" بدلاً من "اتصل بنا" ليكون أكثر شمولية *@
+        <p class="lead text-muted">فريقنا متاح دائمًا للإجابة عن استفساراتك وتقديم الدعم.</p> @* تعديل نص الوصف *@
+    </div>
+
+    <div class="row g-5 justify-content-center"> @* توسيط الصف *@
+        <div class="col-lg-5 animate-fade-in-right" style="animation-delay: 0.2s;"> @* إضافة تأثير Fade In Right *@
+            <h4 class="mb-4 fw-bold text-primary text-center">معلومات التواصل</h4>
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <div class="usage-card bg-white p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center text-center"> @* استخدام usage-card *@
+                        <div class="measure-icon bg-success text-white rounded-circle mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">العنوان</h5>
+                        <p class="text-muted mb-0">المدينة الجامعية - طرابلس، ليبيا</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="usage-card bg-white p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center text-center">
+                        <div class="measure-icon bg-info text-white rounded-circle mb-3">
+                            <i class="fas fa-phone-alt fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">الهاتف</h5>
+                        <p class="text-muted mb-0">+218 91 1234567</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="usage-card bg-white p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center text-center">
+                        <div class="measure-icon bg-warning text-white rounded-circle mb-3">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">البريد الإلكتروني</h5>
+                        <p class="text-muted mb-0">support@studenthostel.ly</p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="usage-card bg-white p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center text-center">
+                        <div class="measure-icon bg-danger text-white rounded-circle mb-3">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">ساعات العمل</h5>
+                        <p class="text-muted mb-0">الأحد - الخميس | 8:00 ص - 4:00 م</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 animate-fade-in-up" style="animation-delay: 0.4s;"> @* إضافة تأثير Fade In Up *@
+            <div class="bg-white p-5 rounded shadow-lg h-100"> @* زيادة الـ padding و Shadow لجعلها بارزة أكثر *@
+                <h4 class="mb-4 fw-bold text-primary text-center">أرسل لنا رسالة</h4>
+                <form method="post">
+                    <div class="form-floating mb-3"> @* استخدام form-floating * /
+                        <input type="text" id="name" name="name" class="form-control" placeholder="أدخل اسمك الكامل" required />
+                        <label for="name">الاسم الكامل</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="your@example.com" required />
+                        <label for="email">البريد الإلكتروني</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="ما هو موضوع رسالتك؟" />
+                        <label for="subject">الموضوع</label>
+                    </div>
+                    <div class="form-floating mb-4"> @* زيادة الـ mb *@
+                        <textarea id="message" name="message" rows="7" class="form-control" placeholder="اكتب رسالتك هنا..." style="height: auto;" required></textarea> @* تحديد ارتفاع تلقائي *@
+                        <label for="message">الرسالة</label>
+                    </div>
+                    <div class="d-grid"> @* زر يملأ العرض بالكامل *@
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill">إرسال الرسالة</button> @* تكبير الزر وجعله دائريًا *@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="height: 450px;">
+                <div class="card-body p-0">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3410.970597978643!2d13.19069351475734!3d32.8906320809289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1399f69f2e3478c7%3A0x3f5c9b1c7c9f8d0!2sUniversity%20of%20Tripoli!5e0!3m2!1sen!2sly!4v1719754800000!5m2!1sen!2sly" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

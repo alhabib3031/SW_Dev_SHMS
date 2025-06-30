@@ -11,6 +11,6 @@ namespace SW_Dev_SHMS.Models
         [ForeignKey("Hostel")]
         public int HostelId { get; set; }
         public Hostel? Hostel { get; set; }
-        public ICollection<DormStudent>? DormStudents { get; set; }
+        public ICollection<Student>? DormStudents { get; set; }
     }
 }

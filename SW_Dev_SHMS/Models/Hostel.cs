@@ -9,7 +9,7 @@ namespace SW_Dev_SHMS.Models
         public int HostelId { get; set; }
         public string? Name { get; set; }
         public string? Location { get; set; }
-        public DormManager? DormManager { get; set; }
+        public Manager? DormManager { get; set; }
         public ICollection<Room>? Rooms { get; set; }
     }
 }
