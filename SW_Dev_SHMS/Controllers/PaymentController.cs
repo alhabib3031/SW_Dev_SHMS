@@ -160,7 +160,7 @@ namespace SW_Dev_SHMS.Controllers
                 TempData["Success"] = "تم الدفع بنجاح! تم تأكيد دفع رسوم التسجيل";
                 _logger.LogInformation($"Online payment completed for student {userId}");
 
-                return RedirectToAction("Success", new { paymentId = payment.Id });
+                return RedirectToAction("Status", new { paymentId = payment.Id });
             }
             catch (Exception ex)
             {

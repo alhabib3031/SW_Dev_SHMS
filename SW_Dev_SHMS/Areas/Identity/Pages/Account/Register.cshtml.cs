@@ -23,7 +23,6 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
@@ -107,7 +106,9 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                // assign user maanger 
+                var maangers =   await _userManager.GetUsersInRoleAsync("Manager");
+                user.DormManager = maangers.FirstOrDefault() as Manager;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -118,7 +119,7 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
                     
                     //Default Usersa Are Students . Managers only can be added by other managers.
                     await _userManager.AddToRoleAsync(user, "Student");
-                    
+                    // Set user name 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -151,7 +152,7 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private ApplicationUser CreateUser()
+        private Student CreateUser()
         {
             try
             {

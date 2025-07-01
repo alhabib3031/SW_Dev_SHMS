@@ -2,6 +2,7 @@
 @model IEnumerable<SW_Dev_SHMS.Data.Entities.Request>
 
 @{
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
     ViewData["Title"] = "طلبات السكن الجامعي";
     var hostels = ViewBag.Hostels as List<SW_Dev_SHMS.Data.Entities.Hostel>;
     var currentStudent = ViewBag.CurrentStudent as SW_Dev_SHMS.Data.Entities.Student;

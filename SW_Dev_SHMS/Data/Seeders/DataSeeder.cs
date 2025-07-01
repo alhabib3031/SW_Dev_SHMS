@@ -55,7 +55,7 @@ namespace SW_Dev_SHMS.Data.Seeders
         /// </summary>
         private async Task SeedDefaultManagerAsync()
         {
-            const string defaultEmail = "admin@hostel.com";
+            const string defaultEmail = "admin@admin.com";
             const string defaultPassword = "Admin@123";
 
             // Check if manager already exists
@@ -95,7 +95,7 @@ namespace SW_Dev_SHMS.Data.Seeders
 
             // Get the default manager
             var defaultManager = await _context.Managers
-                .FirstOrDefaultAsync(m => m.Email == "admin@hostel.com");
+                .FirstOrDefaultAsync();
 
             if (defaultManager == null)
             {

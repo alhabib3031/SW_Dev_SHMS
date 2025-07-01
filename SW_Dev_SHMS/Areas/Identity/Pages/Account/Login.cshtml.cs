@@ -120,7 +120,7 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
 
                     return LocalRedirect(!isAdmin ?
                         // If not admin (assuming student), redirect to student profile
-                        "/student/profile" : returnUrl);
+                        "/student/profile" : "/admin/admindashboard");
 
                     // If admin or user role check failed, use the original return URL
                 }
