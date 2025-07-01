@@ -1,0 +1,307 @@
+﻿@using SW_Dev_SHMS.Data.Entities
+@model IEnumerable<SW_Dev_SHMS.Data.Entities.Request>
+
+@{
+    ViewData["Title"] = "طلبات السكن الجامعي";
+    var hostels = ViewBag.Hostels as List<SW_Dev_SHMS.Data.Entities.Hostel>;
+    var currentStudent = ViewBag.CurrentStudent as SW_Dev_SHMS.Data.Entities.Student;
+}
+
+<div class="container-fluid p-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-lg border-0" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                <div class="card-body text-center py-4">
+                    <h2 class="text-primary mb-2 fw-bold">
+                        <i class="fas fa-home me-3"></i>طلبات السكن الجامعي
+                    </h2>
+                    <p class="text-muted mb-0">إدارة طلبات السكن الجامعي وتقديم طلبات جديدة</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- New Request Form -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-lg border-0 h-100" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>طلب سكن جديد</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-calendar-alt me-2 text-primary"></i>السنة الأكاديمية
+                            </label>
+                            <select name="academicYear" class="form-select" required>
+                                <option value="">اختر السنة الأكاديمية</option>
+                                <option value="2024-2025">2024-2025</option>
+                                <option value="2025-2026">2025-2026</option>
+                                <option value="2026-2027">2026-2027</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-building me-2 text-primary"></i>السكن المفضل
+                            </label>
+                            <select name="preferredHostelId" class="form-select" required>
+                                <option value="">اختر السكن المفضل</option>
+                                @if (hostels != null)
+                                {
+                                    @foreach (var hostel in hostels)
+                                    {
+                                        <option value="@hostel.Id">@hostel.Name - (@hostel.Address)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-comment me-2 text-primary"></i>ملاحظات إضافية
+                            </label>
+                            <textarea name="remarks" class="form-control" rows="3" placeholder="أي متطلبات خاصة أو ملاحظات..."></textarea>
+                            <small class="text-muted">اختياري - الحد الأقصى 500 حرف</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-paper-plane me-2"></i>تقديم الطلب
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requests List -->
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>طلباتي السابقة</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center">رقم الطلب</th>
+                                        <th class="text-center">السنة الأكاديمية</th>
+                                        <th class="text-center">السكن المفضل</th>
+                                        <th class="text-center">حالة الطلب</th>
+                                        <th class="text-center">تاريخ التقديم</th>
+                                        <th class="text-center">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var request in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center fw-bold">#@request.Id</td>
+                                            <td class="text-center">@request.AcademicYear</td>
+                                            <td class="text-center">
+                                                <span class="badge bg-light text-dark">
+                                                    @(request.PreferredHostel?.Name ?? "غير محدد")
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                @switch (request.Status)
+                                                {
+                                                    case ApplicationStatus.Draft:
+                                                        <span class="badge bg-secondary">
+                                                            <i class="fas fa-edit me-1"></i>مسودة
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.PendingPayment:
+                                                        <span class="badge bg-warning">
+                                                            <i class="fas fa-credit-card me-1"></i>في انتظار الدفع
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.Submitted:
+                                                        <span class="badge bg-info">
+                                                            <i class="fas fa-clock me-1"></i>مقدم
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.UnderReview:
+                                                        <span class="badge bg-primary">
+                                                            <i class="fas fa-search me-1"></i>قيد المراجعة
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.Approved:
+                                                        <span class="badge bg-success">
+                                                            <i class="fas fa-check me-1"></i>مقبول
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.Rejected:
+                                                        <span class="badge bg-danger">
+                                                            <i class="fas fa-times me-1"></i>مرفوض
+                                                        </span>
+                                                        break;
+                                                    case ApplicationStatus.Assigned:
+                                                        <span class="badge bg-dark">
+                                                            <i class="fas fa-key me-1"></i>تم التخصيص
+                                                        </span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td class="text-center text-muted">
+                                                <small>
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    @request.ApplicationDate.ToString("dd/MM/yyyy")
+                                                    <br>
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    @request.ApplicationDate.ToString("HH:mm")
+                                                </small>
+                                            </td>
+                                            <td class="text-center">
+                                                @if (request.Status == ApplicationStatus.Draft)
+                                                {
+                                                    <form asp-action="Submit" method="post" style="display: inline">
+                                                        <input type="hidden" name="id" value="@request.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-success">
+                                                            <i class="fas fa-paper-plane me-1"></i>تقديم
+                                                        </button>
+                                                    </form>
+                                                }
+                                                else if (request.Status == ApplicationStatus.PendingPayment)
+                                                {
+                                                    <button class="btn btn-sm btn-warning">
+                                                        <i class="fas fa-credit-card me-1"></i>دفع الرسوم
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-sm btn-outline-info">
+                                                        <i class="fas fa-eye me-1"></i>عرض
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                        @if (!string.IsNullOrEmpty(request.Remarks))
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="bg-light">
+                                                    <small class="text-muted">
+                                                        <strong>ملاحظات:</strong> @request.Remarks
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <i class="fas fa-inbox fa-3x text-muted"></i>
+                            </div>
+                            <h5 class="text-muted">لا توجد طلبات سكن</h5>
+                            <p class="text-muted">قم بتقديم طلب سكن جديد للبدء</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mt-4">
+        @{
+            var totalRequests = Model.Count();
+            var pendingRequests = Model.Count(r => r.Status == ApplicationStatus.Draft || r.Status == ApplicationStatus.PendingPayment);
+            var approvedRequests = Model.Count(r => r.Status == ApplicationStatus.Approved || r.Status == ApplicationStatus.Assigned);
+            var rejectedRequests = Model.Count(r => r.Status == ApplicationStatus.Rejected);
+        }
+
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm text-center" style="background: linear-gradient(45deg, #4facfe, #00f2fe);">
+                <div class="card-body text-white">
+                    <i class="fas fa-file-alt fa-2x mb-2"></i>
+                    <h4 class="fw-bold">@totalRequests</h4>
+                    <p class="mb-0">إجمالي الطلبات</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm text-center" style="background: linear-gradient(45deg, #fa709a, #fee140);">
+                <div class="card-body text-white">
+                    <i class="fas fa-clock fa-2x mb-2"></i>
+                    <h4 class="fw-bold">@pendingRequests</h4>
+                    <p class="mb-0">طلبات معلقة</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm text-center" style="background: linear-gradient(45deg, #43e97b, #38f9d7);">
+                <div class="card-body text-white">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <h4 class="fw-bold">@approvedRequests</h4>
+                    <p class="mb-0">طلبات مقبولة</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm text-center" style="background: linear-gradient(45deg, #ff6b6b, #feca57);">
+                <div class="card-body text-white">
+                    <i class="fas fa-times-circle fa-2x mb-2"></i>
+                    <h4 class="fw-bold">@rejectedRequests</h4>
+                    <p class="mb-0">طلبات مرفوضة</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    }
+    
+    .table tbody tr:hover {
+        background-color: rgba(0,123,255,0.1);
+    }
+    
+    .badge {
+        font-size: 0.8em;
+        padding: 0.5em 0.75em;
+    }
+    
+    .btn {
+        transition: all 0.2s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+</style>

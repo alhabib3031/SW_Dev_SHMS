@@ -57,14 +57,6 @@ namespace SW_Dev_SHMS.Data.Entities;
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Draft;
 
         /// <summary>
-        /// Indicates whether the application fee has been paid.
-        /// Must be true before the application can be submitted for processing.
-        /// Simple boolean approach for school project (no real payment processing).
-        /// </summary>
-        [Display(Name = "Payment Completed")]
-        public bool IsPaymentCompleted { get; set; } = false;
-
-        /// <summary>
         /// Date and time when the accommodation application was created.
         /// Automatically set when the application is first created.
         /// </summary>

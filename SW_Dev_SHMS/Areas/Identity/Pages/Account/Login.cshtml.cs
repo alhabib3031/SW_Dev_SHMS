@@ -14,12 +14,14 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -106,10 +108,21 @@ namespace SW_Dev_SHMS.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    if (user == null) return LocalRedirect(returnUrl);
+                    
+                    // Check if user is in Admin role
+                    var isAdmin = await _userManager.IsInRoleAsync(user, "Manager");
+
+                    return LocalRedirect(!isAdmin ?
+                        // If not admin (assuming student), redirect to student profile
+                        "/student/profile" : returnUrl);
+
+                    // If admin or user role check failed, use the original return URL
                 }
                 if (result.RequiresTwoFactor)
                 {
