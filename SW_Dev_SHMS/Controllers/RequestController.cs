@@ -101,9 +101,9 @@ namespace SW_Dev_SHMS.Controllers
 
             if (request.Status == ApplicationStatus.Draft)
             {
-                request.Status = ApplicationStatus.Submitted;
+                request.Status = ApplicationStatus.UnderReview;
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "تم تقديم الطلب";
+                TempData["Success"] = "تم تقديم الطلب وهو قيد المراجعة حالياً";
             }
 
             return RedirectToAction("Index");
