@@ -132,11 +132,6 @@
                                                             <i class="fas fa-edit me-1"></i>مسودة
                                                         </span>
                                                         break;
-                                                    case ApplicationStatus.PendingPayment:
-                                                        <span class="badge bg-warning">
-                                                            <i class="fas fa-credit-card me-1"></i>في انتظار الدفع
-                                                        </span>
-                                                        break;
                                                     case ApplicationStatus.Submitted:
                                                         <span class="badge bg-info">
                                                             <i class="fas fa-clock me-1"></i>مقدم
@@ -182,12 +177,6 @@
                                                             <i class="fas fa-paper-plane me-1"></i>تقديم
                                                         </button>
                                                     </form>
-                                                }
-                                                else if (request.Status == ApplicationStatus.PendingPayment)
-                                                {
-                                                    <button class="btn btn-sm btn-warning">
-                                                        <i class="fas fa-credit-card me-1"></i>دفع الرسوم
-                                                    </button>
                                                 }
                                                 else
                                                 {

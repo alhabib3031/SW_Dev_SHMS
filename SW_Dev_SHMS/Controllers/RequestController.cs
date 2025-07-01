@@ -101,9 +101,9 @@ namespace SW_Dev_SHMS.Controllers
 
             if (request.Status == ApplicationStatus.Draft)
             {
-                request.Status = ApplicationStatus.PendingPayment;
+                request.Status = ApplicationStatus.Submitted;
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "تم تقديم الطلب، يرجى المتابعة لدفع الرسوم";
+                TempData["Success"] = "تم تقديم الطلب";
             }
 
             return RedirectToAction("Index");
